@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/randomlunch
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+  logging:
+    level:
+      org.hibernate.SQL: debug
+
+server:
+  port: 7647
+
+file:
+  thumbnail:
+    path: C:/Users/MS/Desktop/점심뭐먹지/picture/
