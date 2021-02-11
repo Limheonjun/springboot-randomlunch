@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,7 +21,11 @@ public class Thumbnail {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    private int size;
+    private Long size;
+    private int thumbnailHeight;
+    private int thumbnailWidth;
     private String path;
-    private String hashtag;
+
+    @OneToMany(mappedBy = "thumbnail", cascade = CascadeType.ALL)
+    private List<ThumbnailHashtag> thumbnailHashtagList = new ArrayList<>();
 }
