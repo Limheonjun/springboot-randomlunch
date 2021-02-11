@@ -1,5 +1,6 @@
 package emgc.randomlunch.dto;
 
+import emgc.randomlunch.entity.Restaurant;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,13 @@ import lombok.Setter;
 public class RestaurantListDto {
 
     private Long restaurantId;
-    private String name;
+    private String restaurantName;
+    private String restaurantAddress;
+
+    public RestaurantListDto(Restaurant restaurant) {
+        restaurantId = restaurant.getId();
+        restaurantName = restaurant.getName();
+        restaurantAddress = restaurant.getAddress();
+    }
 
 }
