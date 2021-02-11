@@ -12,7 +12,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     properties:
       hibernate:
         show_sql: true
@@ -27,4 +27,4 @@ server:
 
 file:
   thumbnail:
-    path: C:/Users/MS/Desktop/점심뭐먹지/picture/
+    path: C://Users/MS/Desktop/목차/프로젝트/점심뭐먹지/picture/
