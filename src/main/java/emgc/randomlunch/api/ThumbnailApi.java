@@ -1,5 +1,6 @@
 package emgc.randomlunch.api;
 
+import emgc.randomlunch.dto.ThumbnailInfoDto;
 import emgc.randomlunch.entity.Hashtag;
 import emgc.randomlunch.entity.Restaurant;
 import emgc.randomlunch.entity.Thumbnail;
@@ -10,6 +11,7 @@ import emgc.randomlunch.repository.ThumbnailHashtagRepository;
 import emgc.randomlunch.repository.ThumbnailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,7 +40,14 @@ public class ThumbnailApi {
     private String path;
 
     @PostMapping("/upload")
-    public void uploadThumbnail(MultipartFile files[], @RequestPart("restaurantId") Long restaurantId, @RequestPart("hashtags") String hashtags[]) throws IOException {
+    public void uploadThumbnail(MultipartFile files[],
+                                @RequestPart("restaurantId") Long restaurantId,
+                                @RequestPart("hashtags") String hashtags[],
+                                BindingResult bindingResult) throws IOException {
+        if(bindingResult.hasErrors()) {
+            bindingResult.getFieldErrors();
+            return;
+        }
         List<Thumbnail> thumbnailList = new ArrayList<>();
         List<Hashtag> hashtagList = new ArrayList<>();
 
@@ -69,7 +79,8 @@ public class ThumbnailApi {
                     .size(saveFile.length())
                     .thumbnailHeight(width)
                     .thumbnailHeight(height)
-                    .path(path+saveName)
+//                    .path(path+saveName)
+                    .fileName(saveName)
                     .build();
 
             Thumbnail saveThumbnail = thumbnailRepository.save(thumbnail);
@@ -87,4 +98,33 @@ public class ThumbnailApi {
             }
         }
     }
+
+    @GetMapping("/list")
+    public List<ThumbnailInfoDto> getAllThumbnails() {
+        List<Thumbnail> thumbnailList = thumbnailRepository.findAll();
+        List<ThumbnailInfoDto> thumbnailInfoDtoList = new ArrayList<>();
+
+        // TODO : thumbnail을 가져올때 hash를 1+n으로 가져오는 현상 eager처리로 변경 요망
+        for(Thumbnail thumbnail : thumbnailList) {
+            ThumbnailInfoDto thumbnailInfoDto = ThumbnailInfoDto.builder()
+                    .thumbnailId(thumbnail.getId())
+                    .restaurantId(thumbnail.getRestaurant().getId())
+                    .restaurantName(thumbnail.getRestaurant().getName())
+                    .thumbnailHeight(thumbnail.getThumbnailHeight())
+//                    .path(thumbnail.getPath())
+                    .fileName(thumbnail.getFileName())
+                    .hashtags(thumbnail.getThumbnailHashtagList()
+                            .stream()
+                            .map(hashtag -> hashtag.getHashtag().getWord())
+                            .collect(Collectors.toList())
+                    )
+                    .build();
+
+            thumbnailInfoDtoList.add(thumbnailInfoDto);
+        }
+
+        return thumbnailInfoDtoList;
+    }
+
+    // TODO : 썸네일 정보 조회 api 추가 요망
 }
