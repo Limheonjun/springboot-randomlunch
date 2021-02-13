@@ -1,5 +1,6 @@
 package emgc.randomlunch.api;
 
+import emgc.randomlunch.dto.RestaurantInfoDto;
 import emgc.randomlunch.dto.RestaurantListDto;
 import emgc.randomlunch.entity.Restaurant;
 import emgc.randomlunch.entity.Thumbnail;
@@ -31,9 +32,14 @@ public class RestaurantApi {
 
     //    https://stackoverflow.com/questions/21329426/spring-mvc-multipart-request-with-json
     @PostMapping("/upload")
-    public void uploadRestaurant(/*MultipartFile files[], */@RequestPart("restaurant")Restaurant restaurant) throws IOException {
-        System.out.println("address : " + restaurant.getAddress());
-        System.out.println("name : " + restaurant.getName());
+    public void uploadRestaurant(/*MultipartFile files[], */@RequestPart("restaurant") RestaurantInfoDto restaurantInfoDto) throws IOException {
+        System.out.println("address : " + restaurantInfoDto.getAddress());
+        System.out.println("name : " + restaurantInfoDto.getName());
+        Restaurant restaurant = Restaurant.builder()
+                                .address(restaurantInfoDto.getAddress())
+                                .name(restaurantInfoDto.getName())
+                                .build();
+        restaurantRepository.save(restaurant);
     }
 
     @GetMapping("/list")
