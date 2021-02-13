@@ -16,5 +16,6 @@ public class RestaurantInfoDto {
     private String name;
     private String locationX;
     private String locationY;
+    private String address;
 
 }
