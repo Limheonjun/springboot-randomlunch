@@ -1,7 +1,9 @@
 package emgc.randomlunch.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +12,8 @@ import java.util.List;
 @Entity
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Thumbnail {
 
     @Id
@@ -24,7 +28,8 @@ public class Thumbnail {
     private Long size;
     private int thumbnailHeight;
     private int thumbnailWidth;
-    private String path;
+//    private String path;
+    private String fileName;
 
     @OneToMany(mappedBy = "thumbnail", cascade = CascadeType.ALL)
     private List<ThumbnailHashtag> thumbnailHashtagList = new ArrayList<>();
