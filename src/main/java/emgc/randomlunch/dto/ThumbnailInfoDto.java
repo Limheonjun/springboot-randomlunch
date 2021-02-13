@@ -2,6 +2,7 @@ package emgc.randomlunch.dto;
 
 import emgc.randomlunch.entity.Restaurant;
 import emgc.randomlunch.entity.ThumbnailHashtag;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,13 +12,17 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
 public class ThumbnailInfoDto {
 
-    private Long id;
-    private Restaurant restaurant;
+    private Long thumbnailId;
+    private Long restaurantId;
+    private String restaurantName;
     private int size;
     private int thumbnailHeight;
     private int thumbnailWidth;
-    private String path;
+//    private String path;
+    private String fileName;
+    private List<String> hashtags = new ArrayList<>();
 
 }
