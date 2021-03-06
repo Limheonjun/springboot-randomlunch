@@ -12,7 +12,9 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+#      https://stackoverflow.com/questions/65543131/spring-jpa-hibernate-ddl-auto-update-not-working-in-spring-boot
+#      ddl-auto not working에 관련한 글
+      ddl-auto: validate
     properties:
       hibernate:
         show_sql: true
@@ -23,7 +25,15 @@ spring:
       org.hibernate.SQL: debug
 
 server:
-  port: 7647
+  port: 5069
+  ssl:
+    enabled: true
+    key-store: keystore.p12
+    key-store-type: PKCS12
+    key-store-password: dla60177
+    key-alias: bns-ssl
+
+
 
 file:
   thumbnail:
