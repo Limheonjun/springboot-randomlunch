@@ -11,6 +11,8 @@ import emgc.randomlunch.repository.ThumbnailHashtagRepository;
 import emgc.randomlunch.repository.ThumbnailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,10 +22,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -100,8 +99,42 @@ public class ThumbnailApi {
     }
 
     @GetMapping("/list")
-    public List<ThumbnailInfoDto> getAllThumbnails() {
-        List<Thumbnail> thumbnailList = thumbnailRepository.findAll();
+    public List<ThumbnailInfoDto> getAllThumbnails(int pageNumber) {
+        System.out.println("pageNum : " + pageNumber);
+        Page<Thumbnail> all = thumbnailRepository.findAll(PageRequest.of(pageNumber, 25));
+//        all.stream().map(PostDTO::new).collect(Collectors.toList());
+//        List<Thumbnail> thumbnailList = (List<Thumbnail>) all;
+
+        List<ThumbnailInfoDto> thumbnailInfoDtoList = new ArrayList<>();
+
+        // TODO : thumbnail을 가져올때 hash를 1+n으로 가져오는 현상 eager처리로 변경 요망
+        for(Thumbnail thumbnail : all) {
+            ThumbnailInfoDto thumbnailInfoDto = ThumbnailInfoDto.builder()
+                    .thumbnailId(thumbnail.getId())
+                    .restaurantId(thumbnail.getRestaurant().getId())
+                    .restaurantName(thumbnail.getRestaurant().getName())
+                    .thumbnailHeight(thumbnail.getThumbnailHeight())
+//                    .path(thumbnail.getPath())
+                    .fileName(thumbnail.getFileName())
+                    .hashtags(thumbnail.getThumbnailHashtagList()
+                            .stream()
+                            .map(hashtag -> hashtag.getHashtag().getWord())
+                            .collect(Collectors.toList())
+                    )
+                    .build();
+
+            thumbnailInfoDtoList.add(thumbnailInfoDto);
+        }
+        Collections.shuffle(thumbnailInfoDtoList);
+
+        return thumbnailInfoDtoList;
+    }
+
+    @GetMapping("/carousel")
+    public List<ThumbnailInfoDto> getRandomThumbnails(@RequestParam Long restaurantId) {
+        Restaurant findRestaurant = restaurantRepository.findById(restaurantId).get();
+        List<Thumbnail> thumbnailList = thumbnailRepository.findFirst8ByRestaurant(findRestaurant);
+        Collections.shuffle(thumbnailList);
         List<ThumbnailInfoDto> thumbnailInfoDtoList = new ArrayList<>();
 
         // TODO : thumbnail을 가져올때 hash를 1+n으로 가져오는 현상 eager처리로 변경 요망
