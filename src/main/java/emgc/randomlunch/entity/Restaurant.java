@@ -1,16 +1,16 @@
 package emgc.randomlunch.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import emgc.randomlunch.dto.RestaurantInfoDto;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,6 +30,13 @@ public class Restaurant {
     private String name;
     private String locationX;
     private String locationY;
+    private LocalTime openTime;
+    private LocalTime closeTime;
+    private String fileName;
     private String address;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
 }
