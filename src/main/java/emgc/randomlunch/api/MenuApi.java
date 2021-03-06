@@ -21,7 +21,7 @@ public class MenuApi {
     private final RestaurantRepository restaurantRepository;
 
     @PostMapping("/upload")
-    public void uploadMenu(@RequestPart("menuDto") MenuInfoDto menuInfoDto) {
+    public void uploadMenu(@RequestBody MenuInfoDto menuInfoDto) {
 
         Restaurant findRestaurant = restaurantRepository.findById(menuInfoDto.getRestaurantId()).get();
 
@@ -50,6 +50,23 @@ public class MenuApi {
         }
 
         return menuInfoDtoList;
+    }
+
+    @PostMapping("/edit")
+    public MenuInfoDto editMenu(@RequestBody MenuInfoDto menuInfoDto) {
+        System.out.println("edit " + menuInfoDto.getMenuId());
+        Menu menu = menuRepository.findById(menuInfoDto.getMenuId()).get();
+        menu.setName(menuInfoDto.getName());
+        menu.setPrice(menuInfoDto.getPrice());
+        Menu save = menuRepository.save(menu);
+        return new MenuInfoDto(save);
+    }
+
+    @DeleteMapping("/delete")
+    public void deleteMenu(@RequestParam Long menuId) {
+        Menu findMenu = menuRepository.findById(menuId).get();
+        menuRepository.delete(findMenu);
+        System.out.println("menuId" + menuId);
     }
 
 
