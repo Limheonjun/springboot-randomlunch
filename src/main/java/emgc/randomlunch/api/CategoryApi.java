@@ -13,7 +13,6 @@ import java.util.List;
 @RequestMapping("/category")
 public class CategoryApi {
 
-    private final CategoryRepository categoryRepository;
     private final CategoryService service;
 
     @PostMapping("/upload")
