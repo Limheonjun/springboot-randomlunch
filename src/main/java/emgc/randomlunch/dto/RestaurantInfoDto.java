@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class RestaurantInfoDto {
 
-    private Long restaurantId;
+    private Long id;
     private List<String> menuList = new ArrayList<>();
     private List<Integer> priceList = new ArrayList<>();
     private String name;
@@ -26,23 +26,21 @@ public class RestaurantInfoDto {
     private String locationY;
     private LocalTime openTime;
     private LocalTime closeTime;
-    private String address;
     private Long categoryId;
     private String fileName;
+    private String address;
     private List<String> hashtags = new ArrayList<>();
 
     public void setOpenTime(String openTime) {
-//        this.openTime = LocalTime.of(openTime).format(DateTimeFormatter.ofPattern("HH:mm"));;
         this.openTime = LocalTime.parse(openTime);
     }
 
     public void setCloseTime(String closeTime) {
-//        this.openTime = LocalTime.of(openTime).format(DateTimeFormatter.ofPattern("HH:mm"));;
         this.closeTime = LocalTime.parse(closeTime);
     }
 
     public RestaurantInfoDto(Restaurant restaurant) {
-        this.restaurantId = restaurant.getId();
+        this.id = restaurant.getId();
         this.name = restaurant.getName();
         this.openTime = restaurant.getOpenTime();
         this.closeTime = restaurant.getCloseTime();
