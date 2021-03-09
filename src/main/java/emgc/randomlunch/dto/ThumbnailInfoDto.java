@@ -15,13 +15,12 @@ import java.util.List;
 @Builder
 public class ThumbnailInfoDto {
 
-    private Long thumbnailId;
+    private Long id;
     private Long restaurantId;
     private String restaurantName;
-    private int size;
+    private Long size;
     private int thumbnailHeight;
     private int thumbnailWidth;
-//    private String path;
     private String fileName;
     private List<String> hashtags = new ArrayList<>();
 
