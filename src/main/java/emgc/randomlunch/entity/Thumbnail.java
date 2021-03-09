@@ -28,7 +28,6 @@ public class Thumbnail {
     private Long size;
     private int thumbnailHeight;
     private int thumbnailWidth;
-//    private String path;
     private String fileName;
 
     @OneToMany(mappedBy = "thumbnail", cascade = CascadeType.ALL)
