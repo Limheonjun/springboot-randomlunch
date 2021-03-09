@@ -10,11 +10,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CategoryInfoDto {
 
-    private Long categoryId;
+    private Long id;
     private String name;
 
     public CategoryInfoDto(Category category) {
-        this.categoryId = category.getId();
+        this.id = category.getId();
         this.name = category.getName();
+
     }
 }
