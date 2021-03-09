@@ -10,13 +10,13 @@ import lombok.*;
 @AllArgsConstructor
 public class MenuInfoDto {
 
-    private Long menuId;
+    private Long id;
     private Long restaurantId;
     private String name;
     private int price;
 
     public MenuInfoDto(Menu menu) {
-        this.menuId = menu.getId();
+        this.id = menu.getId();
         this.restaurantId = menu.getRestaurant().getId();
         this.name = menu.getName();
         this.price = menu.getPrice();
