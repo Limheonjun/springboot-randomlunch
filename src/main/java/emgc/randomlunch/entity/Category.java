@@ -1,5 +1,6 @@
 package emgc.randomlunch.entity;
 
+import emgc.randomlunch.dto.CategoryInfoDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,4 +24,8 @@ public class Category {
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Restaurant> restaurant = new ArrayList<>();
+
+    public Category(CategoryInfoDto categoryInfoDto) {
+        this.name = categoryInfoDto.getName();
+    }
 }
