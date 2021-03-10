@@ -13,26 +13,26 @@ import java.util.List;
 @RequestMapping("/category")
 public class CategoryApi {
 
-    private final CategoryService service;
+    private final CategoryService categoryService;
 
     @PostMapping("/upload")
     public void uploadCategory(@RequestBody CategoryInfoDto categoryInfoDto) throws Exception {
-        service.addCategory(categoryInfoDto);
+        categoryService.addCategory(categoryInfoDto);
     }
 
     @GetMapping("/list")
     public List<CategoryInfoDto> getCategoryList() {
-        return service.getCategoryList();
+        return categoryService.getCategoryList();
     }
 
     @PostMapping("/edit")
     public void editCategoryInfo(@RequestBody CategoryInfoDto categoryInfoDto) throws Exception {
-        service.editCategory(categoryInfoDto);
+        categoryService.editCategory(categoryInfoDto);
     }
 
     @DeleteMapping("/delete")
     public void deleteCategory(@RequestParam Long categoryId) throws Exception {
-        service.deleteCategory(categoryId);
+        categoryService.deleteCategory(categoryId);
     }
 
 }
