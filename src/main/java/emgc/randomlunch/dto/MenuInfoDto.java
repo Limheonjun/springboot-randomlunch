@@ -1,6 +1,7 @@
 package emgc.randomlunch.dto;
 
 import emgc.randomlunch.entity.Menu;
+import emgc.randomlunch.entity.Restaurant;
 import lombok.*;
 
 @Getter
@@ -20,5 +21,14 @@ public class MenuInfoDto {
         this.restaurantId = menu.getRestaurant().getId();
         this.name = menu.getName();
         this.price = menu.getPrice();
+    }
+
+    public Menu makeMenu(Restaurant restaurant) {
+        Menu menu = Menu.builder()
+                .restaurant(restaurant)
+                .name(name)
+                .price(price)
+                .build();
+        return menu;
     }
 }
