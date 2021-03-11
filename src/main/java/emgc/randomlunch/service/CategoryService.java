@@ -48,4 +48,9 @@ public class CategoryService {
         repository.delete(category);
     }
 
+    //카테고리 조회
+    public Category getCategory(Long id) {
+        Category category = repository.findById(id).orElseThrow();
+        return category;
+    }
 }
