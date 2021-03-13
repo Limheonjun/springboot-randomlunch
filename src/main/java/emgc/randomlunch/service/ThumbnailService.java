@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,5 +60,29 @@ public class ThumbnailService {
         thumbnailList.add(save);
         return thumbnailList;
     }
+
+    // 캐러셀 8개 가져와서 섞기
+    public List<ThumbnailInfoDto> getRandom8Thumbnail(Restaurant restaurant) {
+        List<Thumbnail> findCarousel = repository.findFirst8ByRestaurant(restaurant);
+        Collections.shuffle(findCarousel);
+        List<ThumbnailInfoDto> carousel = new ArrayList<>();
+        for(Thumbnail thumbnail : findCarousel) {
+            ThumbnailInfoDto thumbnailInfoDto = ThumbnailInfoDto.builder()
+                    .id(thumbnail.getId())
+                    .restaurantId(thumbnail.getRestaurant().getId())
+                    .restaurantName(thumbnail.getRestaurant().getName())
+                    .file(new FileInfoDto(thumbnail.getFile()))
+                    .hashtags(thumbnail.getThumbnailHashtagList()
+                            .stream()
+                            .map(hashtag -> hashtag.getHashtag().getWord())
+                            .collect(Collectors.toList())
+                    )
+                    .build();
+            carousel.add(thumbnailInfoDto);
+        }
+        return carousel;
+
+    }
+
 
 }
