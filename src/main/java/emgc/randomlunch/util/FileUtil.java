@@ -15,7 +15,7 @@ import java.util.UUID;
 public class FileUtil {
 
     // 실제 파일 저장
-    public FileInfoDto saveFiles(MultipartFile file, String path) throws IOException {
+    public FileInfoDto saveFile(MultipartFile file, String path) throws IOException {
         FileInfoDto fileInfo = null;
 
         BufferedImage image = ImageIO.read(file.getInputStream());
