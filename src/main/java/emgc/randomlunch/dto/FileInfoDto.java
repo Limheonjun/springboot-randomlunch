@@ -1,5 +1,6 @@
 package emgc.randomlunch.dto;
 
+import emgc.randomlunch.entity.File;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,5 +19,14 @@ public class FileInfoDto {
     private int width;
     private String name;
     private String extension;
+
+    public FileInfoDto(File file) {
+        this.id = file.getId();
+        this.size = file.getSize();
+        this.height = file.getHeight();
+        this.width = file.getWidth();
+        this.name = file.getName();
+        this.extension = file.getExtension();
+    }
 
 }
