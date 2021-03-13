@@ -20,7 +20,7 @@ public class File {
     private Long size;
     private int height;
     private int width;
-    private int name;
+    private String name;
     private String extension;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "file")
