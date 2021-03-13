@@ -25,10 +25,9 @@ public class Thumbnail {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    private Long size;
-    private int thumbnailHeight;
-    private int thumbnailWidth;
-    private String fileName;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "file_id")
+    private File file;
 
     @OneToMany(mappedBy = "thumbnail", cascade = CascadeType.ALL)
     private List<ThumbnailHashtag> thumbnailHashtagList = new ArrayList<>();
