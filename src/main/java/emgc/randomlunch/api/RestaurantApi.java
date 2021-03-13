@@ -1,5 +1,6 @@
 package emgc.randomlunch.api;
 
+import emgc.randomlunch.dto.FileInfoDto;
 import emgc.randomlunch.dto.RestaurantInfoDto;
 import emgc.randomlunch.entity.Category;
 import emgc.randomlunch.entity.Restaurant;
@@ -21,6 +22,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -41,7 +43,11 @@ public class RestaurantApi {
     @PostMapping("/upload")
     public void uploadRestaurant(@RequestPart("files") MultipartFile files[], @RequestPart("restaurant") RestaurantInfoDto restaurantInfoDto) throws IOException {
         Category category = categoryService.getCategory(restaurantInfoDto.getCategoryId());
-        List<String> fileName = fileUtil.saveFile(files, path);
+        List<String> fileName = new ArrayList<>();
+        for(MultipartFile file : files) {
+            FileInfoDto fileInfoDto = fileUtil.saveFile(file, path);
+            fileName.add(fileInfoDto.getName());
+        }
         restaurantService.addRestaurant(restaurantInfoDto, category, fileName.get(0));
     }
 
