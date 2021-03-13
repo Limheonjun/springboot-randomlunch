@@ -1,5 +1,6 @@
 package emgc.randomlunch.dto;
 
+import emgc.randomlunch.entity.File;
 import emgc.randomlunch.entity.Restaurant;
 import emgc.randomlunch.entity.ThumbnailHashtag;
 import lombok.Builder;
@@ -18,10 +19,7 @@ public class ThumbnailInfoDto {
     private Long id;
     private Long restaurantId;
     private String restaurantName;
-    private Long size;
-    private int thumbnailHeight;
-    private int thumbnailWidth;
-    private String fileName;
+    private FileInfoDto file;
     private List<String> hashtags = new ArrayList<>();
 
 }
