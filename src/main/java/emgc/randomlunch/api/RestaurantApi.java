@@ -65,7 +65,7 @@ public class RestaurantApi {
     }
 
     @PostMapping("/edit")
-    public void editRestaurant(RestaurantInfoDto restaurantInfoDto) {
+    public void editRestaurant(@RequestPart("files") MultipartFile files[], @RequestPart("restaurant") RestaurantInfoDto restaurantInfoDto) {
         Category category = categoryService.getCategory(restaurantInfoDto.getCategoryId());
         restaurantService.editRestaurant(restaurantInfoDto, category);
     }

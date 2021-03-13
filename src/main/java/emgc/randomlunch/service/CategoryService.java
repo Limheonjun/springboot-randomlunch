@@ -29,8 +29,8 @@ public class CategoryService {
 
     //카테고리 추가
     public void addCategory(CategoryInfoDto categoryInfoDto) throws Exception{
-        Optional<Category> optional = repository.findById(categoryInfoDto.getId());
-        if(!optional.isEmpty()) throw new Exception();
+        //Optional<Category> optional = repository.findById(categoryInfoDto.getId());
+        //if(!optional.isEmpty()) throw new Exception();
         Category category = new Category(categoryInfoDto);
         repository.save(category);
     }
