@@ -27,9 +27,17 @@ public class ThumbnailService {
     private final FileUtil fileUtil;
 
     // 썸네일 목록 조회
-    public List<ThumbnailInfoDto> getThumbnailList(int pageNumber) {
+    public List<ThumbnailInfoDto> getThumbnailList(int pageIndex, Restaurant restaurant) {
         List<ThumbnailInfoDto> thumbnailList = new ArrayList<>();
-        Page<Thumbnail> findThumbnails = repository.findAll(PageRequest.of(pageNumber, 25));
+        List<Thumbnail> findThumbnails = null;
+        PageRequest pageRequest = PageRequest.of(pageIndex, 25);
+        long offset = pageRequest.getOffset();
+        if(restaurant != null) {
+            findThumbnails = repository.findByRestaurant(restaurant, pageRequest);
+        } else {
+            findThumbnails = repository.findAll(pageRequest).getContent();
+        }
+
         // TODO : thumbnail을 가져올때 hash를 1+n으로 가져오는 현상 eager처리로 변경 요망
         thumbnailList = findThumbnails.stream()
                         .map(thumbnail -> {
