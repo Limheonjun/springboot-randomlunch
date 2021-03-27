@@ -82,8 +82,12 @@ public class ThumbnailApi {
     }
 
     @GetMapping("/list")
-    public List<ThumbnailInfoDto> getAllThumbnails(int pageNumber) {
-        return thumbnailService.getThumbnailList(pageNumber);
+    public List<ThumbnailInfoDto> getAllThumbnails(int pageIndex, @RequestParam(required = false) Long restaurantId) {
+        Restaurant restaurant = null;
+        if(restaurantId != null) {
+            restaurant = restaurantService.getRestaurant(restaurantId);
+        }
+        return thumbnailService.getThumbnailList(pageIndex, restaurant);
     }
 
     @GetMapping("/carousel")
