@@ -5,15 +5,10 @@ import emgc.randomlunch.dto.RestaurantInfoDto;
 import emgc.randomlunch.entity.Category;
 import emgc.randomlunch.entity.Restaurant;
 import emgc.randomlunch.repository.RestaurantRepository;
-import emgc.randomlunch.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,66 +16,59 @@ import java.util.stream.Collectors;
 public class RestaurantService {
 
     private final RestaurantRepository repository;
-    private final FileUtil fileUtil;
+    private final CategoryService categoryService;
 
     //음식점 목록 조회
     public List<RestaurantInfoDto> getRestaurantList() {
-        List<RestaurantInfoDto> restaurantList = new ArrayList<>();
         List<Restaurant> findRestaurantList = repository.findAll();
-        restaurantList = findRestaurantList.stream()
-                .map(RestaurantInfoDto::new)
-                .collect(Collectors.toList());
-        return restaurantList;
+        return findRestaurantList.stream().map(RestaurantInfoDto::new).collect(Collectors.toList());
     }
 
     //음식점정보 반환
-    public Restaurant getRestaurant(Long id) {
-        Restaurant restaurant = repository.findById(id).orElseThrow();
-        return restaurant;
+    public Restaurant getRestaurant(RestaurantInfoDto restaurantInfoDto) {
+        return getRestaurant(restaurantInfoDto.getId());
+    }
+
+    public Restaurant getRestaurant(Long restaurantId) {
+        return repository.findById(restaurantId).orElseThrow();
     }
 
     //카테고리별 음식점 목록 조회
-    public List<RestaurantInfoDto> getRestaurantListByCategory(Category category) {
-        List<RestaurantInfoDto> restaurantList = new ArrayList<>();
+    public List<RestaurantInfoDto> getRestaurantListByCategory(CategoryInfoDto categoryInfoDto) {
+        Category category = categoryService.getCategory(categoryInfoDto);
         List<Restaurant> findRestaurants = repository.findByCategory(category);
-        restaurantList = findRestaurants.stream()
-                .map(RestaurantInfoDto::new)
-                .collect(Collectors.toList());
-        return restaurantList;
+        return findRestaurants.stream().map(RestaurantInfoDto::new).collect(Collectors.toList());
     }
 
     //음식점정보 추가
-    public void addRestaurant(RestaurantInfoDto restaurantInfoDto, Category category, String fileName) throws IOException {
-
+    public Restaurant addRestaurant(RestaurantInfoDto restaurantInfoDto) {
+        Category category = categoryService.getCategory(restaurantInfoDto.getCategoryId());
         Restaurant restaurant = Restaurant.builder()
                 .name(restaurantInfoDto.getName())
                 .openTime(restaurantInfoDto.getOpenTime())
                 .closeTime(restaurantInfoDto.getCloseTime())
-                .fileName(fileName)
                 .address(restaurantInfoDto.getAddress())
                 .category(category)
                 .build();
-
-        repository.save(restaurant);
+        return repository.save(restaurant);
     }
 
     //음식점 수정
-    public void editRestaurant(RestaurantInfoDto restaurantInfoDto, Category category) {
-        Restaurant restaurant = repository.findById(restaurantInfoDto.getId()).orElseThrow();
+    public Restaurant editRestaurant(RestaurantInfoDto restaurantInfoDto) {
+        Category category = categoryService.getCategory(restaurantInfoDto.getCategoryId());
+        Restaurant restaurant = getRestaurant(restaurantInfoDto);
         restaurant.setName(restaurantInfoDto.getName());
         restaurant.setOpenTime(restaurantInfoDto.getOpenTime());
         restaurant.setCloseTime(restaurantInfoDto.getCloseTime());
         restaurant.setAddress(restaurantInfoDto.getAddress());
         restaurant.setCategory(category);
-        repository.save(restaurant);
+        return restaurant;
     }
 
-    //카테고리 삭제
-    public void deleteRestaurant(Long id) {
-        Restaurant restaurant = repository.findById(id).orElseThrow();
+    //음식점 삭제
+    public void deleteRestaurant(RestaurantInfoDto restaurantInfoDto) {
+        Restaurant restaurant = repository.findById(restaurantInfoDto.getId()).orElseThrow();
         repository.delete(restaurant);
     }
-
-
 
 }
