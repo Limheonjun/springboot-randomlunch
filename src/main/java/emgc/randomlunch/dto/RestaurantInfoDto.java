@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,12 +23,9 @@ public class RestaurantInfoDto {
     private List<String> menuList = new ArrayList<>();
     private List<Integer> priceList = new ArrayList<>();
     private String name;
-    private String locationX;
-    private String locationY;
     private LocalTime openTime;
     private LocalTime closeTime;
     private Long categoryId;
-    private String fileName;
     private String address;
     private List<String> hashtags = new ArrayList<>();
 
@@ -48,7 +44,6 @@ public class RestaurantInfoDto {
         this.closeTime = restaurant.getCloseTime();
         this.address = restaurant.getAddress();
         this.categoryId = restaurant.getCategory().getId();
-        this.fileName = restaurant.getFileName();
         this.hashtags = getRandomHashtags(restaurant);
     }
 
