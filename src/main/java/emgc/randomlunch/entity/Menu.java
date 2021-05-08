@@ -8,8 +8,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Menu {
 
     @Id
