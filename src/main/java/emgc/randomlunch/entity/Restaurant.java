@@ -1,6 +1,5 @@
 package emgc.randomlunch.entity;
 
-import emgc.randomlunch.dto.RestaurantInfoDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,8 +11,8 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Restaurant {
 
     @Id
@@ -28,11 +27,8 @@ public class Restaurant {
     private List<Thumbnail> thumbnailList = new ArrayList<>();
 
     private String name;
-    private String locationX;
-    private String locationY;
     private LocalTime openTime;
     private LocalTime closeTime;
-    private String fileName;
     private String address;
 
     @ManyToOne(fetch = FetchType.LAZY)
