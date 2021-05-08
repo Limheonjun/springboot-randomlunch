@@ -1,7 +1,6 @@
 package emgc.randomlunch.api;
 
 import emgc.randomlunch.dto.CategoryInfoDto;
-import emgc.randomlunch.repository.CategoryRepository;
 import emgc.randomlunch.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,7 @@ public class CategoryApi {
     private final CategoryService categoryService;
 
     @PostMapping("/upload")
-    public void uploadCategory(@RequestBody CategoryInfoDto categoryInfoDto) throws Exception {
+    public void addCategory(@RequestBody CategoryInfoDto categoryInfoDto) {
         categoryService.addCategory(categoryInfoDto);
     }
 
@@ -26,13 +25,13 @@ public class CategoryApi {
     }
 
     @PostMapping("/edit")
-    public void editCategoryInfo(@RequestBody CategoryInfoDto categoryInfoDto) throws Exception {
+    public void editCategoryInfo(@RequestBody CategoryInfoDto categoryInfoDto) {
         categoryService.editCategory(categoryInfoDto);
     }
 
     @DeleteMapping("/delete")
-    public void deleteCategory(@RequestParam Long categoryId) throws Exception {
-        categoryService.deleteCategory(categoryId);
+    public void deleteCategory(@RequestParam CategoryInfoDto categoryInfoDto) {
+        categoryService.deleteCategory(categoryInfoDto);
     }
 
 }
