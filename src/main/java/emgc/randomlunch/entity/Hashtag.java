@@ -26,4 +26,8 @@ public class Hashtag {
     @OneToMany(mappedBy = "hashtag", cascade = CascadeType.ALL)
     private List<ThumbnailHashtag> thumbnailHashtagList = new ArrayList<>();
 
+    public Hashtag(String word){
+        this.word = word;
+    }
+
 }
