@@ -17,6 +17,7 @@ public class FileInfoDto {
     private int height;
     private int width;
     private String name;
+    private String originalName;
     private String extension;
 
     public FileInfoDto(File file) {
@@ -25,6 +26,7 @@ public class FileInfoDto {
         this.height = file.getHeight();
         this.width = file.getWidth();
         this.name = file.getName();
+        this.originalName = file.getOriginalName();
         this.extension = file.getExtension();
     }
 
