@@ -49,7 +49,12 @@ public class UserApi {
 
     @GetMapping("/countrycode")
     public Object getCountryCode(){
-        return Arrays.stream(CountryCode.values()).collect(Collectors.toMap(code -> code, code -> code.getCode()));
+        return Arrays.stream(CountryCode.values()).map(data -> new HashMap<String,String>(){
+            {
+                put("country", data.toString());
+                put("code", data.getCode());
+            }
+        }).collect(Collectors.toList());
     }
 
 }
