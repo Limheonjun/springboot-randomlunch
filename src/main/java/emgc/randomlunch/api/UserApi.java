@@ -43,4 +43,10 @@ public class UserApi {
         response.setHeader("X-AUTH-TOKEN", token);
         return new UserDto(member);
     }
+
+    @GetMapping("/countrycode")
+    public Object getCountryCode(){
+        return Arrays.stream(CountryCode.values()).collect(Collectors.toMap(code -> code, code -> code.getCode()));
+    }
+
 }
