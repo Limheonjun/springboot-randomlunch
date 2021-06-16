@@ -22,10 +22,13 @@ public class UserApi {
     @Autowired private JwtAuthenticationProvider jwtAuthenticationProvider;
 
     @PostMapping("/join")
-    public void join(@RequestBody Map<String, String> user){
+    public void join(@RequestBody UserDto user){
         userRepository.save(User.builder()
-                .email(user.get("email"))
-                .password(passwordEncoder.encode(user.get("password")))
+                .email(user.getEmail())
+                .password(passwordEncoder.encode(user.getPassword()))
+                .name(user.getName())
+                .phoneNumber(user.getPhoneNumber())
+                .gender(user.getGender())
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build());
 
