@@ -1,5 +1,6 @@
 package emgc.randomlunch.security.domain;
 
+import emgc.randomlunch.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,6 +28,12 @@ public class User implements UserDetails {
 
     private String email;
     private String password;
+    private String phoneNumber;
+    private String name;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
