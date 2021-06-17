@@ -1,10 +1,8 @@
 package emgc.randomlunch.dto;
 
+import emgc.randomlunch.enums.Gender;
 import emgc.randomlunch.security.domain.User;
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -15,12 +13,15 @@ public class UserDto {
     private long id;
     private String email;
     private String password;
-    private List<String> roles = new ArrayList<>();
+    private String name;
+    private String phoneNumber;
+    private Gender gender;
 
     public UserDto(User user){
         this.id = user.getId();
         this.email = user.getEmail();
         this.password = user.getPassword();
-        this.roles = user.getRoles();
+        this.name = user.getName();
+        this.gender = user.getGender();
     }
 }
