@@ -6,9 +6,11 @@ import emgc.randomlunch.security.domain.User;
 import emgc.randomlunch.security.provider.JwtAuthenticationProvider;
 import emgc.randomlunch.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -44,7 +46,39 @@ public class UserApi {
 
         String token = jwtAuthenticationProvider.createToken(member.getUsername(), member.getRoles());
         response.setHeader("X-AUTH-TOKEN", token);
+
+        Cookie cookie = new Cookie("X-AUTH-TOKEN", token);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        response.addCookie(cookie);
+
         return new UserDto(member);
+    }
+
+    @PostMapping("/update")
+    public UserDto update(@RequestBody UserDto userDto){
+        User user = userRepository.findById(userDto.getId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+        //userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.updateInfo(userDto);
+        return userDto;
+    }
+
+    @PostMapping("/logout")
+    public void logout(HttpServletResponse response){
+        Cookie cookie = new Cookie("X-AUTH-TOKEN", null);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(false);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+    }
+
+    @GetMapping("/info")
+    public UserDto getInfo(){
+        Object details = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(details != null) return new UserDto((User) details);
+        return null;
     }
 
     @GetMapping("/countrycode")
