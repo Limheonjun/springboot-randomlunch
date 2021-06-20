@@ -6,6 +6,7 @@ import emgc.randomlunch.entity.File;
 import emgc.randomlunch.entity.Hashtag;
 import emgc.randomlunch.entity.Restaurant;
 import emgc.randomlunch.entity.Thumbnail;
+import emgc.randomlunch.security.domain.User;
 import emgc.randomlunch.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,6 +43,11 @@ public class ThumbnailApi {
     @GetMapping("/list")
     public List<ThumbnailInfoDto> getThumbnailList(Pageable pageable) {
         return thumbnailService.getThumbnailList(pageable);
+    }
+
+    @GetMapping("/list/{id}")
+    public List<ThumbnailInfoDto> getThumbnailListByUser(Pageable pageable, @PathVariable Long id) {
+        return thumbnailService.getThumbnailListByUser(pageable, id);
     }
 
     @GetMapping("/restaurant")
