@@ -77,7 +77,7 @@ public class UserApi {
     @GetMapping("/info")
     public UserDto getInfo(){
         Object details = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(details != null) return new UserDto((User) details);
+        if(details != null && !(details instanceof  String)) return new UserDto((User) details);
         return null;
     }
 
