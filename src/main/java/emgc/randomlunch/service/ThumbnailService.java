@@ -5,6 +5,7 @@ import emgc.randomlunch.entity.File;
 import emgc.randomlunch.entity.Restaurant;
 import emgc.randomlunch.entity.Thumbnail;
 import emgc.randomlunch.repository.ThumbnailRepository;
+import emgc.randomlunch.security.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 public class ThumbnailService {
 
     private final ThumbnailRepository repository;
+    private final UserService userService;
 
     // 썸네일 목록 조회
     public List<ThumbnailInfoDto> getThumbnailList(Restaurant restaurant, Pageable pageable) {
@@ -29,6 +31,12 @@ public class ThumbnailService {
 
     public List<ThumbnailInfoDto> getThumbnailList(Pageable pageable){
         List<Thumbnail> thumbnails = repository.findAll(pageable).getContent();
+        return thumbnails.stream().map(ThumbnailInfoDto::new).collect(Collectors.toList());
+    }
+
+    public List<ThumbnailInfoDto> getThumbnailListByUser(Pageable pageable, Long id){
+        User user = userService.getUser(id);
+        List<Thumbnail> thumbnails = repository.findByUser(user, pageable);
         return thumbnails.stream().map(ThumbnailInfoDto::new).collect(Collectors.toList());
     }
 
