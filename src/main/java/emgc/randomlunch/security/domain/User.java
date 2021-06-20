@@ -1,6 +1,7 @@
 package emgc.randomlunch.security.domain;
 
 import emgc.randomlunch.dto.UserDto;
+import emgc.randomlunch.entity.Thumbnail;
 import emgc.randomlunch.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,6 +38,9 @@ public class User implements UserDetails {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Thumbnail> thumbnailList = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
