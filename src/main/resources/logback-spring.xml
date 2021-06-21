@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 60초마다 설정 파일의 변경을 확인 하여 변경시 갱신 -->
+<configuration scan="true" scanPeriod="60 seconds">
+
+    <property name="LOG_PATTERN" value="%d{yy-MM-dd HH:mm:ss} %-5level [%thread]  [%logger.%method:%line] - %msg%n"/>
+    <springProperty scope="context" name="LOG_PATH" source="log.config.path"/>
+    <springProperty scope="context" name="LOG_FILE_NAME" source="log.config.fileName"/>
+    <springProperty scope="context" name="LOG_ERROR_FILE_NAME" source="log.config.errorFileName"/>
+    <springProperty scope="context" name="LOG_LEVEL" source="logging.level.root"/>
+
+    <springProfile name="console-logging">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>${LOG_PATTERN}</pattern>
+                <charset>UTF-8</charset>
+            </encoder>
+        </appender>
+    </springProfile>
+
+    <springProfile name="file-logging">
+        <!-- File Appender -->
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <!-- 파일경로 설정 -->
+            <file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
+            <!-- 출력패턴 설정-->
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <pattern>${LOG_PATTERN}</pattern>
+                <charset>UTF-8</charset>
+            </encoder>
+            <!-- Rolling 정책 -->
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!-- .gz,.zip 등을 넣으면 자동 일자별 로그파일 압축 -->
+                <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <!-- 파일당 최고 용량 kb, mb, gb -->
+                    <maxFileSize>10MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+                <!-- 일자별 로그파일 최대 보관주기(~일), 해당 설정일 이상된 파일은 자동으로 제거-->
+                <maxHistory>30</maxHistory>
+                <!--<MinIndex>1</MinIndex> <MaxIndex>10</MaxIndex>-->
+            </rollingPolicy>
+        </appender>
+    </springProfile>
+
+    <springProfile name="error-logging">
+        <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>error</level>
+                <onMatch>ACCEPT</onMatch>
+                <onMismatch>DENY</onMismatch>
+            </filter>
+            <file>${LOG_PATH}/${LOG_ERROR_FILE_NAME}.log</file>
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <Pattern>${LOG_PATTERN}</Pattern>
+                <charset>UTF-8</charset>
+            </encoder>
+
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_PATH}/${LOG_ERROR_FILE_NAME}.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                    <maxFileSize>10MB</maxFileSize>
+                </timeBasedFileNamingAndTriggeringPolicy>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+        </appender>
+    </springProfile>
+
+    <root level="${LOG_LEVEL}">
+        <springProfile name="console-logging">
+            <appender-ref ref="CONSOLE"/>
+        </springProfile>
+        <springProfile name="file-logging">
+            <appender-ref ref="FILE"/>
+        </springProfile>
+        <springProfile name="error-logging">
+            <appender-ref ref="ERROR"/>
+        </springProfile>
+    </root>
+
+</configuration>
