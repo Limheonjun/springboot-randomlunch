@@ -1,7 +1,4 @@
 spring:
-  profiles:
-    include: console-logging, file-logging
-
   datasource:
     url: jdbc:h2:tcp://localhost/~/randomlunch
     username: sa
