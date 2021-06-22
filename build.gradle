@@ -38,6 +38,12 @@ test {
     useJUnitPlatform()
 }
 
+tasks {
+    processResources {
+        duplicatesStrategy(DuplicatesStrategy.INCLUDE)
+    }
+}
+
 ext.profile = (!project.hasProperty('profile') || !profile) ? 'dev' : profile
 sourceSets {
     main {
