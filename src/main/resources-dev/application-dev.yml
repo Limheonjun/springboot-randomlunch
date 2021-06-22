@@ -1,7 +1,4 @@
 spring:
-  profiles:
-    include: console-logging
-
   datasource:
     url: jdbc:h2:tcp://localhost/~/randomlunch
     username: sa
@@ -35,4 +32,4 @@ log:
 
 logging:
   level:
-    root: debug
+    root: info
