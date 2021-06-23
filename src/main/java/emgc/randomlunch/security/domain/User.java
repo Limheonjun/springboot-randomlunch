@@ -1,6 +1,7 @@
 package emgc.randomlunch.security.domain;
 
 import emgc.randomlunch.dto.UserDto;
+import emgc.randomlunch.entity.BaseTimeEntity;
 import emgc.randomlunch.entity.Thumbnail;
 import emgc.randomlunch.enums.Gender;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class User implements UserDetails {
+public class User extends BaseTimeEntity implements UserDetails{
 
     @Id
     @GeneratedValue

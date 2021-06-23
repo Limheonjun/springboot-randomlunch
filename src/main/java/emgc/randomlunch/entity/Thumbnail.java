@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Thumbnail {
+public class Thumbnail extends BaseEntity{
 
     @Id
     @GeneratedValue

@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Hashtag {
+public class Hashtag extends BaseEntity{
 
     @Id
     @GeneratedValue

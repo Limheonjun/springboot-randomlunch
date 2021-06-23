@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Question {
+public class Question extends BaseEntity{
 
     @Id
     @GeneratedValue

@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class File {
+public class File extends BaseEntity{
 
     @Id
     @GeneratedValue
