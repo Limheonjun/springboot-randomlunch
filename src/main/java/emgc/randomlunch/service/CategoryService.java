@@ -36,7 +36,7 @@ public class CategoryService {
     public Category editCategory(CategoryInfoDto categoryInfoDto) {
         Category category = repository.findById(categoryInfoDto.getId()).orElseThrow();
         category.setName(categoryInfoDto.getName());
-        return category;
+        return repository.save(category);
     }
 
     public void deleteCategory(CategoryInfoDto categoryInfoDto) {
