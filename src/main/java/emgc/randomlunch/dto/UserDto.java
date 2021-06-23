@@ -16,6 +16,7 @@ public class UserDto {
     private String name;
     private String phoneNumber;
     private Gender gender;
+    private String role;
 
     public UserDto(User user){
         this.id = user.getId();
@@ -23,5 +24,6 @@ public class UserDto {
         this.name = user.getName();
         this.phoneNumber = user.getPhoneNumber();
         this.gender = user.getGender();
+        this.role = user.getRoles().get(0);
     }
 }
