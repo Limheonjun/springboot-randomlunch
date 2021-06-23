@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.access.vote.RoleHierarchyVoter;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 @Configuration
 public class RoleConfig {
@@ -22,5 +23,21 @@ public class RoleConfig {
         RoleHierarchyVoter roleHierarchyVoter = new RoleHierarchyVoter(roleHierarchy());
         return roleHierarchyVoter;
     }
+
+    public void setResourceRoles(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/question/**").permitAll()
+                .antMatchers("/thumbnail/upload").hasRole(Role.ADMIN.getRole())
+                .antMatchers("/thumbnail/**").permitAll()
+                .antMatchers("/user/countrycode").permitAll()
+                .antMatchers("/user/join").permitAll()
+                .antMatchers("/user/login").permitAll()
+                .antMatchers("/user/**").hasRole(Role.USER.getRole())
+                .antMatchers("/**/list").permitAll()
+                .antMatchers("/**").hasRole(Role.ADMIN.getRole())
+                .anyRequest().authenticated();
+    }
+
 
 }
