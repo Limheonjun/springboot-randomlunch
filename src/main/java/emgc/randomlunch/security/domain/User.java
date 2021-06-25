@@ -13,9 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -27,6 +25,7 @@ public class User extends BaseTimeEntity implements UserDetails{
 
     @Id
     @GeneratedValue
+    @Column(name = "user_id")
     private Long id;
 
     private String email;
@@ -37,15 +36,17 @@ public class User extends BaseTimeEntity implements UserDetails{
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roles = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private Set<UserRole> userRole = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Thumbnail> thumbnailList = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream()
+        return this.userRole.stream()
+                .map(UserRole::getRole)
+                .map(Role::getRoleName)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
