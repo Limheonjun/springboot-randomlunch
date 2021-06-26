@@ -24,6 +24,6 @@ public class UserDto {
         this.name = user.getName();
         this.phoneNumber = user.getPhoneNumber();
         this.gender = user.getGender();
-        this.role = user.getRoles().get(0);
+        this.role = user.getUserRole().stream().findFirst().get().getRole().getRoleName();
     }
 }
