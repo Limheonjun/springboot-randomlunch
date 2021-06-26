@@ -36,7 +36,7 @@ public class User extends BaseTimeEntity implements UserDetails{
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<UserRole> userRole = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
