@@ -2,9 +2,13 @@ package emgc.randomlunch.api;
 
 import emgc.randomlunch.dto.UserDto;
 import emgc.randomlunch.enums.CountryCode;
+import emgc.randomlunch.security.domain.Role;
 import emgc.randomlunch.security.domain.User;
+import emgc.randomlunch.security.domain.UserRole;
 import emgc.randomlunch.security.provider.JwtAuthenticationProvider;
+import emgc.randomlunch.security.repository.RoleRepository;
 import emgc.randomlunch.security.repository.UserRepository;
+import emgc.randomlunch.security.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 @RestController
@@ -22,18 +27,31 @@ public class UserApi {
     @Autowired private UserRepository userRepository;
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private JwtAuthenticationProvider jwtAuthenticationProvider;
+    @Autowired private RoleRepository roleRepository;
+    @Autowired private UserRoleRepository userRoleRepository;
 
     @PostMapping("/join")
     public void join(@RequestBody UserDto user){
-        userRepository.save(User.builder()
+        User joinUser = User.builder()
                 .email(user.getEmail())
                 .password(passwordEncoder.encode(user.getPassword()))
                 .name(user.getName())
                 .phoneNumber(user.getPhoneNumber())
                 .gender(user.getGender())
-                .roles(Collections.singletonList("ROLE_USER"))
-                .build());
+                .build();
+        userRepository.save(joinUser);
 
+        Role role =  Role.builder()
+                    .roleName("ROLE_USER")
+                    .roleDesc("일반사용자")
+                    .build();
+        roleRepository.save(role);
+
+        UserRole userRole = UserRole.builder()
+                .role(role)
+                .user(joinUser)
+                .build();
+        userRoleRepository.save(userRole);
     }
 
     @PostMapping("/login")
@@ -44,7 +62,8 @@ public class UserApi {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
 
-        String token = jwtAuthenticationProvider.createToken(member.getUsername(), member.getRoles());
+        String token = jwtAuthenticationProvider.createToken(member.getUsername(),
+                member.getUserRole().stream().map(UserRole::getRole).map(Role::getRoleName).collect(Collectors.toList()));
         response.setHeader("X-AUTH-TOKEN", token);
 
         Cookie cookie = new Cookie("X-AUTH-TOKEN", token);
