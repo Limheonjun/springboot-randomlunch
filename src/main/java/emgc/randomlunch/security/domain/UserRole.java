@@ -1,12 +1,14 @@
 package emgc.randomlunch.security.domain;
 
 import emgc.randomlunch.entity.BaseEntity;
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Builder
 public class UserRole extends BaseEntity {
 
     @Id
