@@ -13,7 +13,7 @@ public class Resources extends BaseEntity {
 
     @Id
     @GeneratedValue
-    @Column(name = "resource_id")
+    @Column(name = "resources_id")
     private Long id;
 
     private String resourceName;
@@ -22,5 +22,5 @@ public class Resources extends BaseEntity {
     private String resourceType;
 
     @OneToMany(mappedBy = "resources")
-    private Set<Role> roles = new HashSet<>();
+    private Set<RoleResources> roleResources = new HashSet<>();
 }
