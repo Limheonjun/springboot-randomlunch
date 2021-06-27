@@ -22,6 +22,7 @@ public class ThumbnailInfoDto {
     private Long restaurantId;
     private String restaurantName;
     private Long fileId;
+    private String fileName;
     private List<String> hashtags = new ArrayList<>();
 
     public ThumbnailInfoDto(Thumbnail thumbnail){
@@ -29,6 +30,7 @@ public class ThumbnailInfoDto {
         this.restaurantId = thumbnail.getRestaurant().getId();
         this.restaurantName = thumbnail.getRestaurant().getName();
         this.fileId = thumbnail.getFile().getId();
+        this.fileName = thumbnail.getFile().getName();
         this.hashtags = thumbnail.getThumbnailHashtagList().stream()
                 .map(ThumbnailHashtag::getHashtag)
                 .map(Hashtag::getWord)
