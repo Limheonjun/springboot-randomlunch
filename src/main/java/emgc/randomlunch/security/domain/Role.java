@@ -1,6 +1,10 @@
 package emgc.randomlunch.security.domain;
 
+import emgc.randomlunch.entity.BaseEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -9,7 +13,10 @@ import java.util.Set;
 
 @Entity
 @Getter
-public class Role {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Role extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -21,8 +28,8 @@ public class Role {
 
     @OneToMany(mappedBy = "role")
     @OrderBy("ordernum desc")
-    private Set<Resources> resourcesSet = new LinkedHashSet<>();
+    private Set<RoleResources> roleResources = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "role")
-    private Set<User> users = new HashSet<>();
+    private Set<UserRole> userRoles = new HashSet<>();
 }
