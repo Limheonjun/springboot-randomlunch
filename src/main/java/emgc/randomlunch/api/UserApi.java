@@ -100,14 +100,4 @@ public class UserApi {
         return null;
     }
 
-    @GetMapping("/countrycode")
-    public Object getCountryCode(){
-        return Arrays.stream(CountryCode.values()).map(data -> new HashMap<String,String>(){
-            {
-                put("country", data.toString());
-                put("code", data.getCode());
-            }
-        }).collect(Collectors.toList());
-    }
-
 }
