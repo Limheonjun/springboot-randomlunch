@@ -1,0 +1,40 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/randomlunch
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+  logging:
+    level:
+      org.hibernate.SQL: debug
+
+server:
+  port: 7647
+
+file:
+  thumbnail:
+    path: /home/ubuntu/app/
+
+log:
+  config:
+    path: /home/ubuntu/app/logs/
+    fileName: randomlunch
+    errorFileName: randomlunch_error
+
+logging:
+  level:
+    root: info
