@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/randomlunch
-    username: sa
+    url: ENC(agr10QpFaRX+fxlGKdyIEp9xBmZsTzjWGSQuTJoxGa2N400H18+crXQEdnameKLp)
+    username: ENC(gpwS31OV+13eF/h2lsDRHw==)
     password:
-    driver-class-name: org.h2.Driver
+    driver-class-name: ENC(RZWV45PcNqTz+N3VaCK6FtxqClv/ldQ3)
 
   jpa:
     hibernate:
@@ -18,15 +18,15 @@ spring:
       org.hibernate.SQL: debug
 
 server:
-  port: 7647
+  port: ENC(3uqt0kEpDqzMzaj7NEyLsQ==)
 
 file:
   thumbnail:
-    path: C://Users/MS/Desktop/목차/프로젝트/점심뭐먹지/picture/
+    path: ENC(zuuePJIv5T3TNkkwE+Qov7RuPb97yh249MmYmrMPdmF4kXGXg1NHqMuMuHwuladRYaDIOMxzEQsT6KwAsqpFC/rJ3qdBaVYho10sgqJ62Zk=)
 
 log:
   config:
-    path: C://Users/MS/Desktop/목차/프로젝트/점심뭐먹지/logs/
+    path: ENC(xA6NH4UdeXU/xzr4ErLRDpiDDct6j5Z3iJXe2fokJwNwspv9jFNAOdGDDwPZKzENexM3aZvkTwsrLr9pmt+7uqNUBoquY1U/)
     fileName: randomlunch
     errorFileName: randomlunch_error
 
