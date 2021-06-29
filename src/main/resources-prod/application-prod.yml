@@ -1,13 +1,13 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/randomlunch
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: ENC(vJtBvCPKZo8ZK5nacUdmGE6mzSovD/awmboR1xfT8mLt99cm78eoGlcTxx+23aTcSb/3HXJLqMbOfVB7gNnRQoexCZlP+U6Ht+Jxzg79MMXTSyiKSScrlP7Wn27H1mpeuD8r9qrKsFQ=)
+    username: ENC(97oTBNdqZE8wc1UJUa5+/g==)
+    password: ENC(UVupbZkdKKNLSs5kbQy9D1G3CAWLzTzH)
+    driver-class-name: ENC(McpdBFlqGYTqgxoSXpoYXrsFJ3YonHBDgM7/HBhhO0g=)
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
     properties:
       hibernate:
         show_sql: true
@@ -18,15 +18,15 @@ spring:
       org.hibernate.SQL: info
 
 server:
-  port: 7647
+  port: ENC(hiaROb91Q24UkJvbh0X8vw==)
 
 file:
   thumbnail:
-    path: C://Users/MS/Desktop/목차/프로젝트/점심뭐먹지/picture/
+    path: ENC(PkX+FReFgeaRdQ/4gIh3HstSwFD9pVWrGpswFJQQbn8=)
 
 log:
   config:
-    path: C://Users/MS/Desktop/목차/프로젝트/점심뭐먹지/logs/
+    path: ENC(2avk+SYIA4QtM9JWevyZHx5CzPgcqOF9jYPNqlz01tgZuXVGSuqo+A==)
     fileName: randomlunch
     errorFileName: randomlunch_error
 
