@@ -17,6 +17,22 @@ script: "./gradlew clean build"
 before_install:
   - chmod +x gradlew
 
+before_deploy:
+  - zip -r springboot-randomlunch * #현재 위치의 모든 파일을 springboot-randomlunch이름으로 압축
+  - mkdir -p deploy # deploy라는 디렉토리를 Travis CI가 실행중인 위치에서 생성
+  - mv springboot-randomlunch.zip deploy/springboot-randomlunch.zip
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: springboot-randomlunch-build
+    region: ap-northeast-2
+    skip_cleanup: true
+    acl: private
+    local_dir: deploy
+    wait-until-deployed: true
+
 # CI 실행 완료 시 메일로 알람
 notifications:
   email:
