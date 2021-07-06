@@ -22,7 +22,7 @@ before_deploy:
   - cp scripts/*.sh before-deploy/
   - cp appspec.yml before-deploy/
   - cp build/libs/*.jar before-deploy/
-  - cp before-deploy && zip -r before-deploy * #현재 위치의 모든 파일을 before-deploy이름으로 압축
+  - cd before-deploy && zip -r before-deploy * #현재 위치의 모든 파일을 before-deploy이름으로 압축
   - cd ../ && mkdir -p deploy
   - mv before-deploy/before-deploy.zip deploy/springboot-randomlunch.zip
 
