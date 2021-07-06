@@ -43,9 +43,9 @@ deploy:
     bucket: springboot-randomlunch-build
     key: springboot-randomlunch.zip #S3에 업로드되는 zip파일명과 일치되어야함
     bundle_type: zip
-    application: springboot-randomlunch
-    deployment_group: springboot-randomlunch-group
-    region: us-east-2
+    application: randomlunch
+    deployment_group: randomlunch-group
+    region: us-east-2 # code deploy애플리케이션의 위치 입력
     wait-until-deployed: true
 
 # CI 실행 완료 시 메일로 알람
