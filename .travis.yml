@@ -40,7 +40,7 @@ deploy:
   - provider: codedeploy
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
-    bucket: springboot-randomlunch-build
+    bucket: springboot-randomlunch-build2
     key: springboot-randomlunch.zip #S3에 업로드되는 zip파일명과 일치되어야함
     bundle_type: zip
     application: randomlunch
