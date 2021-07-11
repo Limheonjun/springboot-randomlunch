@@ -6,6 +6,9 @@ branches:
   only:
     - master
 
+git:
+  depth: false # 최신 commit만 받아오도록 설정
+
 # Travis CI 서버의 Home
 cache:
   directories:
