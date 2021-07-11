@@ -15,7 +15,11 @@ cache:
     - '$HOME/ .m2/repository'
     - '$HOME/ .gradle'
 
-script: "./gradlew clean build -Pprofile=prod -x test"
+script:
+  - ls
+  - cat appspec.yml
+  - cat .travis.yml
+  - ./gradlew clean build -Pprofile=prod -x test
 
 before_install:
   - chmod +x gradlew
