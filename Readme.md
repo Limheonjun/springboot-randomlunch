@@ -11,12 +11,19 @@
 
 > Backend Server for Random Lunch React app
 
+## Live Demo
+> https://randomlunch.ga
+
 ## Directory Structure
 
 Within the download archive you'll find the following directories and files. You'll see something like this,
 
 ```
 randomlunch/
+├── scripts/
+│ └── deploy.sh
+├── .travis.yml
+├── appspec.yml
 └── src/
   ├── main/
   │ ├── java/
@@ -26,15 +33,20 @@ randomlunch/
   │ │      ├── config/
   │ │      ├── dto/
   │ │      ├── entity/
+  │ │      ├── enums/
   │ │      ├── filter/
-  │ │      ├── init/
   │ │      ├── interceptor/
   │ │      ├── repository/
+  │ │      ├── security/
   │ │      └── service/
-  │ └── resource/
-  │    ├── static/
-  │    ├── template/
-  │    └── application.yml
+  │ ├── resources/
+  │ │  └── application.yml
+  │ ├── resources-dev/
+  │ │  └── application-dev.yml
+  │ │  └── logback-dev.xml
+  │ └── resources-prod/
+  │    └── application-prod.yml
+  │    └── logback-prod.xml
   └── test/
     └── RandomlunchApplicationTests.java
 ```
@@ -45,8 +57,8 @@ randomlunch/
 ## Todos
 
 - **Add Api Documentation in Readme.md**
-- **Add Jwt Login**
-- **Encrypt Configuration**
+- **Add Jwt Login - Complete**
+- **Encrypt Configuration - Complete**
 
 
 
