@@ -5,14 +5,14 @@ spring:
       max-request-size: 10MB
 
   datasource:
-    url: jdbc:h2:tcp://localhost/~/randomlunch
+    url: jdbc:h2:tcp://localhost/~/randomlunch-test
     username: sa
     password:
     driver-class-name: org.h2.Driver
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop
     properties:
       hibernate:
         show_sql: true
@@ -23,15 +23,15 @@ spring:
       org.hibernate.SQL: debug
 
 server:
-  port: 7647
+  port: 8080
 
 file:
   thumbnail:
-    path: /home/ubuntu/app/
+    path: ENC(zuuePJIv5T3TNkkwE+Qov7RuPb97yh249MmYmrMPdmF4kXGXg1NHqMuMuHwuladRYaDIOMxzEQsT6KwAsqpFC/rJ3qdBaVYho10sgqJ62Zk=)
 
 log:
   config:
-    path: /home/ubuntu/app/logs/
+    path: ENC(xA6NH4UdeXU/xzr4ErLRDpiDDct6j5Z3iJXe2fokJwNwspv9jFNAOdGDDwPZKzENexM3aZvkTwsrLr9pmt+7uqNUBoquY1U/)
     fileName: randomlunch
     errorFileName: randomlunch_error
 
