@@ -30,7 +30,7 @@ public class CategoryApi {
     }
 
     @DeleteMapping("/delete")
-    public void deleteCategory(@RequestParam CategoryInfoDto categoryInfoDto) {
+    public void deleteCategory(@RequestBody CategoryInfoDto categoryInfoDto) {
         categoryService.deleteCategory(categoryInfoDto);
     }
 
