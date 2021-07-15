@@ -29,7 +29,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/image/**")
-                .addResourceLocations("file:///"+path);
+        registry.addResourceHandler("/image/**", "/docs/**")
+                .addResourceLocations("file:///"+path, "classpath:/static/docs/");
     }
 }
