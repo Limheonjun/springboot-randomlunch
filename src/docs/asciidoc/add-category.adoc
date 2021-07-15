@@ -1,0 +1,38 @@
+ifndef::snippets[]
+:snippets: ../../../build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:site-url: /build/asciidoc/html5/
+
+
+== Request
+
+=== [Request CURL]
+include::{snippets}/addCategory/curl-request.adoc[]
+
+=== [Request]
+include::{snippets}/addCategory/http-request.adoc[]
+
+=== [Request Body]
+include::{snippets}/addCategory/request-body.adoc[]
+
+=== [Request Fields]
+include::{snippets}/addCategory/request-fields.adoc[]
+
+== Response
+
+=== [Response]
+include::{snippets}/addCategory/http-response.adoc[]
+
+=== [Response Body]
+```
+```
+
+=== [Response Fields]
+```
+```
