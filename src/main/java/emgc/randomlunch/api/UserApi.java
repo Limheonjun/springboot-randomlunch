@@ -1,7 +1,6 @@
 package emgc.randomlunch.api;
 
 import emgc.randomlunch.dto.UserDto;
-import emgc.randomlunch.enums.CountryCode;
 import emgc.randomlunch.security.domain.Role;
 import emgc.randomlunch.security.domain.User;
 import emgc.randomlunch.security.domain.UserRole;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.stream.Collectors;
 
 @RestController
@@ -64,7 +61,6 @@ public class UserApi {
 
         String token = jwtAuthenticationProvider.createToken(member.getUsername(),
                 member.getUserRole().stream().map(UserRole::getRole).map(Role::getRoleName).collect(Collectors.toList()));
-        response.setHeader("X-AUTH-TOKEN", token);
 
         Cookie cookie = new Cookie("X-AUTH-TOKEN", token);
         cookie.setPath("/");
@@ -78,7 +74,6 @@ public class UserApi {
     @PostMapping("/update")
     public UserDto update(@RequestBody UserDto userDto){
         User user = userRepository.findById(userDto.getId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
-        //userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.updateInfo(userDto);
         return userDto;
     }

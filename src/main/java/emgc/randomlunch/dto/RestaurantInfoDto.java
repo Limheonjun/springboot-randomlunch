@@ -3,10 +3,7 @@ package emgc.randomlunch.dto;
 import emgc.randomlunch.entity.Restaurant;
 import emgc.randomlunch.entity.Thumbnail;
 import emgc.randomlunch.entity.ThumbnailHashtag;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -15,13 +12,13 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class RestaurantInfoDto {
 
     private Long id;
     private List<String> menuList = new ArrayList<>();
-    private List<Integer> priceList = new ArrayList<>();
     private String name;
     private LocalTime openTime;
     private LocalTime closeTime;
