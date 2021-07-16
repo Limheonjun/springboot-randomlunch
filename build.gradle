@@ -53,13 +53,6 @@ test {
     useJUnitPlatform()
 }
 
-bootJar{
-    dependsOn asciidoctor
-    from ("${asciidoctor.outputDir}/html5/") {
-        into 'static/docs/'
-    }
-}
-
 task copyDocument(type: Copy) { // 생성된 docs 파일을 build시 static 아래에 docs로 복사!
     dependsOn asciidoctor
 
@@ -68,7 +61,18 @@ task copyDocument(type: Copy) { // 생성된 docs 파일을 build시 static 아�
 }
 
 build {
-    dependsOn copyDocument // build시 copy 실행
+    dependsOn copyDocument // build명령어 실행 시 dependsOn으로 되어있는 copyDocument를 먼저 실행
+}
+
+bootJar{
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}/html5/") {
+        into 'static/docs/'
+    }
+}
+
+bootRun{
+    dependsOn copyDocument
 }
 
 tasks {
