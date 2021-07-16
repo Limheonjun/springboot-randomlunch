@@ -136,7 +136,7 @@ class CategoryApiTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(document("deleteCategory",
                         requestFields(
-                                fieldWithPath("id").ignored().type(JsonFieldType.NUMBER).description("Category id you want to delete"),
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("Category id you want to delete"),
                                 fieldWithPath("name").type(JsonFieldType.STRING).description("Category name you want to delete")
                         )
                 ))

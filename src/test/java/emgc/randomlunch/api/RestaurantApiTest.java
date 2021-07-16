@@ -140,6 +140,10 @@ class RestaurantApiTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(document("getRestaurantListByCategory",
+                        requestFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("Id of category"),
+                                fieldWithPath("name").type(JsonFieldType.STRING).description("Name of category")
+                        ),
                         responseFields(
                                 fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("Id of restaurant"),
                                 fieldWithPath("[].menuList").type(JsonFieldType.ARRAY).description("Restaurant menu list"),
