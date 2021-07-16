@@ -6,11 +6,13 @@ import emgc.randomlunch.security.metadatasource.UrlFilterInvocationMetadataSourc
 import emgc.randomlunch.security.provider.JwtAuthenticationProvider;
 import emgc.randomlunch.security.service.SecurityResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.RoleVoter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -48,8 +50,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         roleConfig.setResourceRoles(http);
 
-        http
-                .addFilterBefore(customFilterSecurityInterceptor(), FilterSecurityInterceptor.class);
+//        http
+//                .addFilterBefore(customFilterSecurityInterceptor(), FilterSecurityInterceptor.class);
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/docs/**");
     }
 
     @Bean
@@ -63,26 +70,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Bean
-    public FilterSecurityInterceptor customFilterSecurityInterceptor() throws Exception {
-        FilterSecurityInterceptor filterSecurityInterceptor =  new FilterSecurityInterceptor();
-        filterSecurityInterceptor.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource());
-        filterSecurityInterceptor.setAccessDecisionManager(new AffirmativeBased(List.of(new RoleVoter())));
-        return filterSecurityInterceptor;
-    }
-
-    @Bean
-    public FilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource() throws Exception {
-        return new UrlFilterInvocationMetadataSource(urlResourcesMapFactoryBean().getObject());
-    }
-
-    @Bean
-    public UrlResourcesMapFactoryBean urlResourcesMapFactoryBean(){
-
-        UrlResourcesMapFactoryBean urlResourcesMapFactoryBean = new UrlResourcesMapFactoryBean();
-        urlResourcesMapFactoryBean.setSecurityResourceService(securityResourceService);
-
-        return urlResourcesMapFactoryBean;
-    }
+//    @Bean
+//    public FilterSecurityInterceptor customFilterSecurityInterceptor() throws Exception {
+//        FilterSecurityInterceptor filterSecurityInterceptor =  new FilterSecurityInterceptor();
+//        filterSecurityInterceptor.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource());
+//        filterSecurityInterceptor.setAccessDecisionManager(new AffirmativeBased(List.of(new RoleVoter())));
+//        return filterSecurityInterceptor;
+//    }
+//
+//    @Bean
+//    public FilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource() throws Exception {
+//        return new UrlFilterInvocationMetadataSource(urlResourcesMapFactoryBean().getObject());
+//    }
+//
+//    @Bean
+//    public UrlResourcesMapFactoryBean urlResourcesMapFactoryBean(){
+//
+//        UrlResourcesMapFactoryBean urlResourcesMapFactoryBean = new UrlResourcesMapFactoryBean();
+//        urlResourcesMapFactoryBean.setSecurityResourceService(securityResourceService);
+//
+//        return urlResourcesMapFactoryBean;
+//    }
 
 }
