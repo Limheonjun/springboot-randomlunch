@@ -1,0 +1,37 @@
+ifndef::snippets[]
+:snippets: ../../../build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:site-url: /build/asciidoc/html5/
+
+= 회원정보 수정
+
+== Request
+
+=== [Request CURL]
+include::{snippets}/updateUser/curl-request.adoc[]
+
+=== [Request]
+include::{snippets}/updateUser/http-request.adoc[]
+
+=== [Request Body]
+include::{snippets}/updateUser/request-body.adoc[]
+
+=== [Request Fields]
+include::{snippets}/updateUser/request-fields.adoc[]
+
+== Response
+
+=== [Response]
+include::{snippets}/updateUser/http-response.adoc[]
+
+=== [Response Body]
+include::{snippets}/updateUser/response-body.adoc[]
+
+=== [Response Fields]
+include::{snippets}/updateUser/response-fields.adoc[]

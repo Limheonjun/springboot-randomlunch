@@ -1,0 +1,37 @@
+ifndef::snippets[]
+:snippets: ../../../build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:site-url: /build/asciidoc/html5/
+
+= 카테고리별 음식점 조회
+
+== Request
+
+=== [Request CURL]
+include::{snippets}/getRestaurantListByCategory/curl-request.adoc[]
+
+=== [Request]
+include::{snippets}/getRestaurantListByCategory/http-request.adoc[]
+
+=== [Request Body]
+include::{snippets}/getRestaurantListByCategory/request-body.adoc[]
+
+=== [Request Fields]
+include::{snippets}/getRestaurantListByCategory/request-fields.adoc[]
+
+== Response
+
+=== [Response]
+include::{snippets}/getRestaurantListByCategory/http-response.adoc[]
+
+=== [Response Body]
+include::{snippets}/getRestaurantListByCategory/response-body.adoc[]
+
+=== [Response Fields]
+include::{snippets}/getRestaurantListByCategory/response-fields.adoc[]

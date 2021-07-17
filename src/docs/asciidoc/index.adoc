@@ -1,0 +1,45 @@
+ifndef::snippets[]
+:snippets: ../../../build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:site-url: /build/asciidoc/html5/
+
+= API Document
+
+ifdef::env-github,env-browser[:relfilesuffix: .adoc]
+
+=== [Category API]
+* xref:add-category.adoc[카테고리 추가 (Add Category)]
+* xref:get-category.adoc[카테고리 조회 (Get Category)]
+* xref:edit-category.adoc[카테고리 수정 (Edit Category)]
+* xref:delete-category.adoc[카테고리 삭제 (Delete Category)]
+//* link:delete-category.html[카테고리 삭제2 (Delete Category)]
+//* xref:delete-category.html[카테고리 삭제3 (Delete Category)]
+
+=== [Menu API]
+* xref:add-menu.adoc[메뉴 추가 (Add Menu)]
+* xref:get-menu.adoc[메뉴 조회 (Get Menu)]
+* xref:edit-menu.adoc[메뉴 수정 (Edit Menu)]
+* xref:delete-menu.adoc[메뉴 삭제 (Delete Menu)]
+
+=== [Question API]
+* xref:upload-question.adoc[문의사항 업로드 (Upload Question)]
+
+=== [Restaurant API]
+* xref:add-restaurant.adoc[음식점 추가 (Add Restaurant)]
+* xref:get-restaurant.adoc[음식점 조회 (Get Restaurant)]
+* xref:get-restaurant-by-category.adoc[카테고리별 음식점 조회 (Get Restaurant By Category)]
+* xref:edit-restaurant.adoc[음식점 수정 (Edit Restaurant)]
+* xref:delete-restaurant.adoc[음식점 삭제 (Delete Restaurant)]
+
+=== [User API]
+* xref:join-user.adoc[회원가입 (Join User)]
+* xref:login-user.adoc[로그인 (Login User)]
+* xref:get-userinfo.adoc[회원정보 조회 (Get User Info)]
+* xref:update-user.adoc[회원정보 수정 (Update User)]
+* xref:logout-user.adoc[로그아웃 (Logout User)]

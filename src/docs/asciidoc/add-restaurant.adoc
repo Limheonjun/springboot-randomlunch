@@ -9,29 +9,29 @@ endif::[]
 :sectlinks:
 :site-url: /build/asciidoc/html5/
 
-= 카테고리 추가
+= 음식점 추가
 
 == Request
 
 === [Request CURL]
-include::{snippets}/addCategory/curl-request.adoc[]
+include::{snippets}/addRestaurant/curl-request.adoc[]
 
 === [Request]
-include::{snippets}/addCategory/http-request.adoc[]
+include::{snippets}/addRestaurant/http-request.adoc[]
 
 === [Request Body]
-include::{snippets}/addCategory/request-body.adoc[]
+include::{snippets}/addRestaurant/request-body.adoc[]
 
 === [Request Fields]
-include::{snippets}/addCategory/request-fields.adoc[]
+include::{snippets}/addRestaurant/request-fields.adoc[]
 
 == Response
 
 === [Response]
-include::{snippets}/addCategory/http-response.adoc[]
+include::{snippets}/addRestaurant/http-response.adoc[]
 
 === [Response Body]
-include::{snippets}/addCategory/response-body.adoc[]
+include::{snippets}/addRestaurant/response-body.adoc[]
 
 === [Response Fields]
 ```

@@ -1,0 +1,38 @@
+ifndef::snippets[]
+:snippets: ../../../build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:site-url: /build/asciidoc/html5/
+
+= 카테고리 조회
+
+== Request
+
+=== [Request CURL]
+include::{snippets}/getCategoryList/curl-request.adoc[]
+
+=== [Request]
+include::{snippets}/getCategoryList/http-request.adoc[]
+
+=== [Request Body]
+include::{snippets}/getCategoryList/request-body.adoc[]
+
+=== [Request Fields]
+```
+```
+
+== Response
+
+=== [Response]
+include::{snippets}/getCategoryList/http-response.adoc[]
+
+=== [Response Body]
+include::{snippets}/getCategoryList/response-body.adoc[]
+
+=== [Response Fields]
+include::{snippets}/getCategoryList/response-fields.adoc[]

@@ -9,30 +9,30 @@ endif::[]
 :sectlinks:
 :site-url: /build/asciidoc/html5/
 
-= 카테고리 추가
+= 회원정보 조회
 
 == Request
 
 === [Request CURL]
-include::{snippets}/addCategory/curl-request.adoc[]
+include::{snippets}/getInfo/curl-request.adoc[]
 
 === [Request]
-include::{snippets}/addCategory/http-request.adoc[]
+include::{snippets}/getInfo/http-request.adoc[]
 
 === [Request Body]
-include::{snippets}/addCategory/request-body.adoc[]
+include::{snippets}/getInfo/request-body.adoc[]
 
 === [Request Fields]
-include::{snippets}/addCategory/request-fields.adoc[]
+```
+```
 
 == Response
 
 === [Response]
-include::{snippets}/addCategory/http-response.adoc[]
+include::{snippets}/getInfo/http-response.adoc[]
 
 === [Response Body]
-include::{snippets}/addCategory/response-body.adoc[]
+include::{snippets}/getInfo/response-body.adoc[]
 
 === [Response Fields]
-```
-```
+include::{snippets}/getInfo/response-fields.adoc[]

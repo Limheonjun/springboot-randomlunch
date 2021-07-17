@@ -1,0 +1,38 @@
+ifndef::snippets[]
+:snippets: ../../../build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:site-url: /build/asciidoc/html5/
+
+= 음식점 조회
+
+== Request
+
+=== [Request CURL]
+include::{snippets}/getRestaurantList/curl-request.adoc[]
+
+=== [Request]
+include::{snippets}/getRestaurantList/http-request.adoc[]
+
+=== [Request Body]
+include::{snippets}/getRestaurantList/request-body.adoc[]
+
+=== [Request Fields]
+```
+```
+
+== Response
+
+=== [Response]
+include::{snippets}/getRestaurantList/http-response.adoc[]
+
+=== [Response Body]
+include::{snippets}/getRestaurantList/response-body.adoc[]
+
+=== [Response Fields]
+include::{snippets}/getRestaurantList/response-fields.adoc[]

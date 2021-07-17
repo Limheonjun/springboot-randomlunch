@@ -9,29 +9,30 @@ endif::[]
 :sectlinks:
 :site-url: /build/asciidoc/html5/
 
-= 카테고리 추가
+= 로그아웃
 
 == Request
 
 === [Request CURL]
-include::{snippets}/addCategory/curl-request.adoc[]
+include::{snippets}/logoutUser/curl-request.adoc[]
 
 === [Request]
-include::{snippets}/addCategory/http-request.adoc[]
+include::{snippets}/logoutUser/http-request.adoc[]
 
 === [Request Body]
-include::{snippets}/addCategory/request-body.adoc[]
+include::{snippets}/logoutUser/request-body.adoc[]
 
 === [Request Fields]
-include::{snippets}/addCategory/request-fields.adoc[]
+```
+```
 
 == Response
 
 === [Response]
-include::{snippets}/addCategory/http-response.adoc[]
+include::{snippets}/logoutUser/http-response.adoc[]
 
 === [Response Body]
-include::{snippets}/addCategory/response-body.adoc[]
+include::{snippets}/logoutUser/response-body.adoc[]
 
 === [Response Fields]
 ```
