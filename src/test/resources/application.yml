@@ -5,14 +5,14 @@ spring:
       max-request-size: 10MB
 
   datasource:
-    url: jdbc:h2:tcp://localhost/~/randomlunch-test
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: ENC(t/1y6NH+T4S8eGdn4EqCuw2jdnd8irZinYrgEefMZzbxCy/6t5a3zGKl9j5hv+9h/h7aKyasaD7Xb2gQp6HbR//Zd4AGC+c/sWorCGgrNh5qB5Ppo0pUKQGz1RWdOV3QG5A5rhhfIMyZ+dCSYoK30A==)
+    username: ENC(97oTBNdqZE8wc1UJUa5+/g==)
+    password: ENC(UVupbZkdKKNLSs5kbQy9D1G3CAWLzTzH)
+    driver-class-name: ENC(McpdBFlqGYTqgxoSXpoYXrsFJ3YonHBDgM7/HBhhO0g=)
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: true
@@ -20,18 +20,18 @@ spring:
 
   logging:
     level:
-      org.hibernate.SQL: debug
+      org.hibernate.SQL: info
 
 server:
-  port: 8080
+  port: ENC(QEzGHdUxdfcigCOLkUvUsQ==)
 
 file:
   thumbnail:
-    path: ENC(zuuePJIv5T3TNkkwE+Qov7RuPb97yh249MmYmrMPdmF4kXGXg1NHqMuMuHwuladRYaDIOMxzEQsT6KwAsqpFC/rJ3qdBaVYho10sgqJ62Zk=)
+    path: ENC(PkX+FReFgeaRdQ/4gIh3HstSwFD9pVWrGpswFJQQbn8=)
 
 log:
   config:
-    path: ENC(xA6NH4UdeXU/xzr4ErLRDpiDDct6j5Z3iJXe2fokJwNwspv9jFNAOdGDDwPZKzENexM3aZvkTwsrLr9pmt+7uqNUBoquY1U/)
+    path: ENC(2avk+SYIA4QtM9JWevyZHx5CzPgcqOF9jYPNqlz01tgZuXVGSuqo+A==)
     fileName: randomlunch
     errorFileName: randomlunch_error
 
