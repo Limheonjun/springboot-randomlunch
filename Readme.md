@@ -11,8 +11,8 @@
 
 > Backend Server for Random Lunch React app
 
-## Live Demo
-> https://randomlunch.ga
+## API Document
+> https://randomlunch.ga/docs/index.html
 
 ## Directory Structure
 
