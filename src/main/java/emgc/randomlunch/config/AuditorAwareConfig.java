@@ -18,6 +18,9 @@ public class AuditorAwareConfig implements AuditorAware<Long> {
             return null;
         }
 
-        return Optional.of(((User) authentication.getPrincipal()).getId());
+        if(authentication.getPrincipal() instanceof User){
+            return Optional.of(((User) authentication.getPrincipal()).getId());
+        }
+        return null;
     }
 }
