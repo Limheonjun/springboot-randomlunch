@@ -8,6 +8,7 @@ import emgc.randomlunch.security.provider.JwtAuthenticationProvider;
 import emgc.randomlunch.security.repository.RoleRepository;
 import emgc.randomlunch.security.repository.UserRepository;
 import emgc.randomlunch.security.repository.UserRoleRepository;
+import emgc.randomlunch.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,31 +25,13 @@ public class UserApi {
     @Autowired private UserRepository userRepository;
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private JwtAuthenticationProvider jwtAuthenticationProvider;
+    @Autowired private UserService userService;
     @Autowired private RoleRepository roleRepository;
     @Autowired private UserRoleRepository userRoleRepository;
 
     @PostMapping("/join")
     public void join(@RequestBody UserDto user){
-        User joinUser = User.builder()
-                .email(user.getEmail())
-                .password(passwordEncoder.encode(user.getPassword()))
-                .name(user.getName())
-                .phoneNumber(user.getPhoneNumber())
-                .gender(user.getGender())
-                .build();
-        userRepository.save(joinUser);
-
-        Role role =  Role.builder()
-                    .roleName("ROLE_USER")
-                    .roleDesc("일반사용자")
-                    .build();
-        roleRepository.save(role);
-
-        UserRole userRole = UserRole.builder()
-                .role(role)
-                .user(joinUser)
-                .build();
-        userRoleRepository.save(userRole);
+        userService.joinUser(user);
     }
 
     @PostMapping("/login")
