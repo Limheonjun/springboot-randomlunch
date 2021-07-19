@@ -10,6 +10,8 @@ import emgc.randomlunch.security.repository.UserRepository;
 import emgc.randomlunch.security.repository.UserRoleRepository;
 import emgc.randomlunch.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -45,12 +47,19 @@ public class UserApi {
         String token = jwtAuthenticationProvider.createToken(member.getUsername(),
                 member.getUserRole().stream().map(UserRole::getRole).map(Role::getRoleName).collect(Collectors.toList()));
 
-        Cookie cookie = new Cookie("X-AUTH-TOKEN", token);
-        //NginX 설정으로 대체
-        //cookie.setPath("/");
-        //cookie.setHttpOnly(true);
-        //cookie.setSecure(true);
-        response.addCookie(cookie);
+
+//        Cookie cookie = new Cookie("X-AUTH-TOKEN", token);
+//        cookie.setPath("/");
+//        cookie.setHttpOnly(true);
+//        cookie.setSecure(true);
+//        response.addCookie(cookie);
+        ResponseCookie cookie = ResponseCookie.from("X-AUTH-TOKEN", token)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .sameSite("None")
+                .build();
+        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
         return new UserDto(member);
     }
