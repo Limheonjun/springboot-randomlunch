@@ -117,8 +117,11 @@ class MenuApiTest {
     @Test
     @Order(2)
     void getAllMenus() throws Exception {
-        mockMvc.perform(get("/menu/list")
-                .content(objectMapper.writeValueAsString(new RestaurantInfoDto(restaurant)))
+        RestaurantInfoDto restaurantInfoDto = new RestaurantInfoDto(restaurant);
+        restaurantInfoDto.getId();
+
+        mockMvc.perform(get("/menu/list?id="+restaurantInfoDto.getId())
+                //.content(objectMapper.writeValueAsString(new RestaurantInfoDto(restaurant)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(document("getAllMenus",
