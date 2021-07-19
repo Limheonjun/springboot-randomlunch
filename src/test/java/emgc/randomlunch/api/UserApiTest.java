@@ -14,7 +14,9 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseCookie;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -27,7 +29,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.servlet.http.Cookie;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -228,15 +229,19 @@ class UserApiTest {
     @Test
     @Order(5)
     void logout() throws Exception{
-        Cookie cookie = new Cookie("X-AUTH-TOKEN", "token");
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
+        ResponseCookie cookie = ResponseCookie.from("X-AUTH-TOKEN", "token")
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .sameSite("None")
+                .domain("randomlunch.ga")
+                .build();
 
-        String emptyString = null;
+
+        String emptyString = "";
 
         mockMvc.perform(post("/user/logout")
-                .cookie(cookie)
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(document("logoutUser")
         )
