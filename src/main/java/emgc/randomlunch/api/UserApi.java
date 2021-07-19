@@ -46,9 +46,10 @@ public class UserApi {
                 member.getUserRole().stream().map(UserRole::getRole).map(Role::getRoleName).collect(Collectors.toList()));
 
         Cookie cookie = new Cookie("X-AUTH-TOKEN", token);
-        cookie.setPath("/");
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
+        //NginX 설정으로 대체
+        //cookie.setPath("/");
+        //cookie.setHttpOnly(true);
+        //cookie.setSecure(true);
         response.addCookie(cookie);
 
         return new UserDto(member);
