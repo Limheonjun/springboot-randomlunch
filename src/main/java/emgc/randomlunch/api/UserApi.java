@@ -47,12 +47,6 @@ public class UserApi {
         String token = jwtAuthenticationProvider.createToken(member.getUsername(),
                 member.getUserRole().stream().map(UserRole::getRole).map(Role::getRoleName).collect(Collectors.toList()));
 
-
-//        Cookie cookie = new Cookie("X-AUTH-TOKEN", token);
-//        cookie.setPath("/");
-//        cookie.setHttpOnly(true);
-//        cookie.setSecure(true);
-//        response.addCookie(cookie);
         ResponseCookie cookie = ResponseCookie.from("X-AUTH-TOKEN", token)
                 .httpOnly(true)
                 .secure(true)
@@ -74,12 +68,15 @@ public class UserApi {
 
     @PostMapping("/logout")
     public void logout(HttpServletResponse response){
-        Cookie cookie = new Cookie("X-AUTH-TOKEN", null);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(false);
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        response.addCookie(cookie);
+        ResponseCookie cookie = ResponseCookie.from("X-AUTH-TOKEN", null)
+                .httpOnly(true)
+                .secure(true)
+                .maxAge(0)
+                .path("/")
+                .sameSite("None")
+                .domain("randomlunch.ga")
+                .build();
+        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
 
     @GetMapping("/info")
