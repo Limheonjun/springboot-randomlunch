@@ -28,7 +28,7 @@ public class RoleConfig {
         http
                 .authorizeRequests()
                 .antMatchers("/question/**").permitAll()
-                .antMatchers("/thumbnail/upload").hasRole(Role.ADMIN.getRole())
+                .antMatchers("/thumbnail/upload").hasRole("ADMIN")
                 .antMatchers("/thumbnail/**").permitAll()
                 .antMatchers("/user/countrycode").permitAll()
                 .antMatchers("/user/join").permitAll()
