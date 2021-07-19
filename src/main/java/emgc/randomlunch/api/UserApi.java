@@ -58,6 +58,7 @@ public class UserApi {
                 .secure(true)
                 .path("/")
                 .sameSite("None")
+                .domain("randomlunch.ga")
                 .build();
         response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
