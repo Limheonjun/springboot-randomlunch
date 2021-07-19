@@ -21,7 +21,7 @@ public class MenuApi {
     }
 
     @GetMapping("/list")
-    public List<MenuInfoDto> getAllMenus(@RequestBody RestaurantInfoDto restaurantInfoDto) {
+    public List<MenuInfoDto> getAllMenus(RestaurantInfoDto restaurantInfoDto) {
         return menuService.getMenuList(restaurantInfoDto);
     }
 
