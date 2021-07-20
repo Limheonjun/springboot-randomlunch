@@ -1,8 +1,8 @@
 
 # Random Lunch Server
 
-![Version](https://badgen.net/badge/version/1.0/yellow) ![java](https://badgen.net/badge/java/1.8/orange)
-![Junit5](https://badgen.net/badge/Junit5/5.7/cyan)  ![springboot](https://badgen.net/badge/springboot/2.4.1/green) ![JPA](https://badgen.net/badge/JPA/2.4.1/green)
+![Version](https://badgen.net/badge/version/1.0/yellow) ![java](https://badgen.net/badge/java/11/orange)
+![Junit5](https://badgen.net/badge/Junit5/5.7/cyan)  ![springboot](https://badgen.net/badge/springboot/2.5.2/green) ![JPA](https://badgen.net/badge/JPA/2.5.2/green)
 
 
 
@@ -51,14 +51,17 @@ randomlunch/
     └── RandomlunchApplicationTests.java
 ```
 
-
-
+## Done
+- **API Documentation**
+- **JWT Login**
+- **Encrypt Application Properties**
+- **Build different environment variables depending on the environment**
+- **Deployment automation**
+- **Access control according to authorization**
 
 ## Todos
 
-- **Add Api Documentation in Readme.md**
-- **Add Jwt Login - Complete**
-- **Encrypt Configuration - Complete**
+- **Exception handling**
 
 
 
