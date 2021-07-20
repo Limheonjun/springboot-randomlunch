@@ -24,8 +24,8 @@ public class MenuService {
         return findMenuList.stream().map(MenuInfoDto::new).collect(Collectors.toList());
     }
 
-    public List<MenuInfoDto> getMenuList(RestaurantInfoDto restaurantInfoDto) {
-        Restaurant restaurant = restaurantService.getRestaurant(restaurantInfoDto.getId());
+    public List<MenuInfoDto> getMenuList(Long id) {
+        Restaurant restaurant = restaurantService.getRestaurant(id);
         return getMenuList(restaurant);
     }
 
@@ -45,12 +45,12 @@ public class MenuService {
         Menu menu = getMenu(menuInfoDto);
         menu.setName(menuInfoDto.getName());
         menu.setPrice(menuInfoDto.getPrice());
-        return menu;
+        return menuRepository.save(menu);
     }
 
     //메뉴 삭제
-    public void deleteMenu(MenuInfoDto menuInfoDto) {
-        Menu menu = menuRepository.findById(menuInfoDto.getId()).orElseThrow();
+    public void deleteMenu(Long id) {
+        Menu menu = menuRepository.findById(id).orElseThrow();
         menuRepository.delete(menu);
     }
 

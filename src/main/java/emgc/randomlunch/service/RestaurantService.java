@@ -29,13 +29,13 @@ public class RestaurantService {
         return getRestaurant(restaurantInfoDto.getId());
     }
 
-    public Restaurant getRestaurant(Long restaurantId) {
-        return repository.findById(restaurantId).orElseThrow();
+    public Restaurant getRestaurant(Long id) {
+        return repository.findById(id).orElseThrow();
     }
 
     //카테고리별 음식점 목록 조회
-    public List<RestaurantInfoDto> getRestaurantListByCategory(CategoryInfoDto categoryInfoDto) {
-        Category category = categoryService.getCategory(categoryInfoDto);
+    public List<RestaurantInfoDto> getRestaurantListByCategory(Long id) {
+        Category category = categoryService.getCategory(id);
         List<Restaurant> findRestaurants = repository.findByCategory(category);
         return findRestaurants.stream().map(RestaurantInfoDto::new).collect(Collectors.toList());
     }
@@ -62,12 +62,12 @@ public class RestaurantService {
         restaurant.setCloseTime(restaurantInfoDto.getCloseTime());
         restaurant.setAddress(restaurantInfoDto.getAddress());
         restaurant.setCategory(category);
-        return restaurant;
+        return repository.save(restaurant);
     }
 
     //음식점 삭제
-    public void deleteRestaurant(RestaurantInfoDto restaurantInfoDto) {
-        Restaurant restaurant = repository.findById(restaurantInfoDto.getId()).orElseThrow();
+    public void deleteRestaurant(Long id) {
+        Restaurant restaurant = repository.findById(id).orElseThrow();
         repository.delete(restaurant);
     }
 

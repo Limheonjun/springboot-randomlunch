@@ -1,12 +1,15 @@
 package emgc.randomlunch.service;
 
-import emgc.randomlunch.entity.Hashtag;
-import emgc.randomlunch.entity.Thumbnail;
-import emgc.randomlunch.entity.ThumbnailHashtag;
+import emgc.randomlunch.dto.RestaurantInfoDto;
+import emgc.randomlunch.entity.*;
 import emgc.randomlunch.repository.ThumbnailHashtagRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

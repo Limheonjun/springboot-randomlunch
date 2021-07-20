@@ -1,15 +1,21 @@
 package emgc.randomlunch.service;
 
+import emgc.randomlunch.dto.RestaurantInfoDto;
 import emgc.randomlunch.dto.ThumbnailInfoDto;
 import emgc.randomlunch.entity.File;
+import emgc.randomlunch.entity.Hashtag;
 import emgc.randomlunch.entity.Restaurant;
 import emgc.randomlunch.entity.Thumbnail;
 import emgc.randomlunch.repository.ThumbnailRepository;
 import emgc.randomlunch.security.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -22,6 +28,22 @@ public class ThumbnailService {
 
     private final ThumbnailRepository repository;
     private final UserService userService;
+    private final RestaurantService restaurantService;
+    private final HashtagService hashtagService;
+    private final FileService fileService;
+    private final ThumbnailHashtagService thumbnailHashtagService;
+
+    @Value("${file.thumbnail.path}")
+    private String path;
+
+    @Transactional
+    public void uploadThumbnailWithHashtag(MultipartFile files[], RestaurantInfoDto restaurantInfoDto) throws IOException {
+        Restaurant restaurant = restaurantService.getRestaurant(restaurantInfoDto.getId());
+        List<Hashtag> hashtags = hashtagService.addHashtag(restaurantInfoDto.getHashtags().toArray(String[]::new));
+        List<File> fileList = fileService.addFileList(files, path);
+        List<Thumbnail> thumbnailList = addThumbnailList(fileList, restaurant);
+        thumbnailHashtagService.addThumbnailHashtagList(thumbnailList, hashtags);
+    }
 
     // 썸네일 목록 조회
     public List<ThumbnailInfoDto> getThumbnailList(Restaurant restaurant, Pageable pageable) {

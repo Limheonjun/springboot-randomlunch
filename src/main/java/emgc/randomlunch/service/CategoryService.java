@@ -39,8 +39,8 @@ public class CategoryService {
         return repository.save(category);
     }
 
-    public void deleteCategory(CategoryInfoDto categoryInfoDto) {
-        Category category = repository.findById(categoryInfoDto.getId()).orElseThrow();
+    public void deleteCategory(Long id) {
+        Category category = repository.findById(id).orElseThrow();
         repository.delete(category);
     }
 
