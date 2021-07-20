@@ -52,7 +52,6 @@ public class UserApi {
                 .secure(true)
                 .path("/")
                 .sameSite("None")
-                .domain("randomlunch.ga")
                 .build();
         response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
@@ -74,7 +73,6 @@ public class UserApi {
                 .maxAge(0)
                 .path("/")
                 .sameSite("None")
-                .domain("randomlunch.ga")
                 .build();
         response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
