@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -30,6 +31,8 @@ import java.util.List;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -83,7 +86,7 @@ class RestaurantApiTest {
                 .name("홍콩반점")
                 .build();
 
-        mockMvc.perform(post("/restaurants/upload")
+        mockMvc.perform(post("/restaurant/upload")
                 .content(objectMapper.writeValueAsString(restaurantInfoDto))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -106,7 +109,7 @@ class RestaurantApiTest {
     @Test
     @Order(2)
     void getAllRestaurants() throws Exception {
-        mockMvc.perform(get("/restaurants/list")
+        mockMvc.perform(get("/restaurant/list")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(document("getRestaurantList",
@@ -135,14 +138,12 @@ class RestaurantApiTest {
     void getRestaurantListByCategory() throws Exception{
         CategoryInfoDto categoryInfoDto = new CategoryInfoDto(category);
 
-        mockMvc.perform(get("/restaurants/category")
-                .content(objectMapper.writeValueAsString(categoryInfoDto))
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/restaurant/list/{id}", categoryInfoDto.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(document("getRestaurantListByCategory",
-                        requestFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("Id of category"),
-                                fieldWithPath("name").type(JsonFieldType.STRING).description("Name of category")
+                        pathParameters(
+                                parameterWithName("id").description("Id of category")
                         ),
                         responseFields(
                                 fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("Id of restaurant"),
@@ -167,13 +168,13 @@ class RestaurantApiTest {
     @Test
     @Order(4)
     void editRestaurant() throws Exception{
-        MvcResult mvcResult = mockMvc.perform(get("/restaurants/list")).andReturn();
+        MvcResult mvcResult = mockMvc.perform(get("/restaurant/list")).andReturn();
         List<RestaurantInfoDto> restaurantInfoDtoList = (List<RestaurantInfoDto>) objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<List<RestaurantInfoDto>>() {});
         RestaurantInfoDto restaurantInfoDto = restaurantInfoDtoList.get(0);
         restaurantInfoDto.setName("빽다방");
         restaurantInfoDto.setAddress("서울특별시 관악구");
 
-        mockMvc.perform(post("/restaurants/edit")
+        mockMvc.perform(post("/restaurant/edit")
                 .content(objectMapper.writeValueAsString(restaurantInfoDto))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -197,24 +198,15 @@ class RestaurantApiTest {
     @Test
     @Order(5)
     void deleteRestaurant() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get("/restaurants/list")).andReturn();
+        MvcResult mvcResult = mockMvc.perform(get("/restaurant/list")).andReturn();
         List<RestaurantInfoDto> restaurantInfoDtoList = (List<RestaurantInfoDto>) objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<List<RestaurantInfoDto>>() {});
         RestaurantInfoDto restaurantInfoDto = restaurantInfoDtoList.get(0);
 
-        mockMvc.perform(delete("/restaurants/delete")
-                .content(objectMapper.writeValueAsString(restaurantInfoDto))
-                .contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(RestDocumentationRequestBuilders.delete("/restaurant/delete/{id}", restaurantInfoDto.getId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(document("deleteRestaurant",
-                        requestFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("Id of restaurant"),
-                                fieldWithPath("menuList").ignored().type(JsonFieldType.ARRAY).description("Restaurant menu list"),
-                                fieldWithPath("name").ignored().type(JsonFieldType.STRING).description("Name of restaurant"),
-                                fieldWithPath("openTime").ignored().type(JsonFieldType.STRING).description("Restaurant opening hours"),
-                                fieldWithPath("closeTime").ignored().type(JsonFieldType.STRING).description("Restaurant closing  hours"),
-                                fieldWithPath("categoryId").ignored().type(JsonFieldType.NUMBER).description("Category the restaurant belongs to"),
-                                fieldWithPath("address").ignored().type(JsonFieldType.STRING).description("Address of the restaurant"),
-                                fieldWithPath("hashtags").ignored().type(JsonFieldType.ARRAY).description("Restaurant hashtags")
+                        pathParameters(
+                                parameterWithName("id").description("Restaurant id you want to delete")
                         )
                 ))
                 .andExpect(status().isOk())

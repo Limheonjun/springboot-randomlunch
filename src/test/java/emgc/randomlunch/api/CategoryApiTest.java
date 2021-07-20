@@ -26,8 +26,12 @@ import java.util.List;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -130,14 +134,12 @@ class CategoryApiTest {
         List<CategoryInfoDto> categoryList = categoryService.getCategoryList();
         CategoryInfoDto categoryInfoDto = categoryList.get(0);
 
-        mockMvc.perform(delete("/category/delete")
-                .content(objectMapper.writeValueAsString(categoryInfoDto))
+        mockMvc.perform(delete("/category/delete/{id}", categoryInfoDto.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(document("deleteCategory",
-                        requestFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("Category id you want to delete"),
-                                fieldWithPath("name").type(JsonFieldType.STRING).description("Category name you want to delete")
+                        pathParameters(
+                                parameterWithName("id").description("Category id you want to delete")
                         )
                 ))
                 .andExpect(status().isOk())

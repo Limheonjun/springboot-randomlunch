@@ -1,6 +1,5 @@
 package emgc.randomlunch.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import emgc.randomlunch.config.RestDocsConfig;
 import emgc.randomlunch.dto.CategoryInfoDto;
@@ -10,20 +9,18 @@ import emgc.randomlunch.entity.Category;
 import emgc.randomlunch.entity.Restaurant;
 import emgc.randomlunch.repository.CategoryRepository;
 import emgc.randomlunch.repository.RestaurantRepository;
-import emgc.randomlunch.security.repository.ResourcesRepository;
 import emgc.randomlunch.service.MenuService;
-import emgc.randomlunch.service.RestaurantService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -33,10 +30,12 @@ import org.springframework.web.context.WebApplicationContext;
 import java.time.LocalTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -120,11 +119,13 @@ class MenuApiTest {
         RestaurantInfoDto restaurantInfoDto = new RestaurantInfoDto(restaurant);
         restaurantInfoDto.getId();
 
-        mockMvc.perform(get("/menu/list?id="+restaurantInfoDto.getId())
-                //.content(objectMapper.writeValueAsString(new RestaurantInfoDto(restaurant)))
+        mockMvc.perform(RestDocumentationRequestBuilders.get("/menu/list/{id}", restaurantInfoDto.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(document("getAllMenus",
+                        pathParameters(
+                                parameterWithName("id").description("Id of the restaurant to get the menu from")
+                        ),
                         responseFields(
                                 fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("Id of menu"),
                                 fieldWithPath("[].restaurantId").type(JsonFieldType.NUMBER).description("Id of the restaurant to which the menu belongs"),
@@ -169,16 +170,12 @@ class MenuApiTest {
         List<MenuInfoDto> menuList = menuService.getMenuList(restaurant);
         MenuInfoDto menuInfoDto = menuList.get(0);
 
-        mockMvc.perform(delete("/menu/delete")
-                .content(objectMapper.writeValueAsString(menuInfoDto))
+        mockMvc.perform(delete("/menu/delete/{id}", menuInfoDto.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(document("deleteMenu",
-                        requestFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("Id of menu to delete"),
-                                fieldWithPath("restaurantId").ignored().type(JsonFieldType.NUMBER).description("Id of the restaurant to which the category belongs"),
-                                fieldWithPath("name").ignored().type(JsonFieldType.STRING).description("Name of the menu to edit"),
-                                fieldWithPath("price").ignored().type(JsonFieldType.NUMBER).description("Price of the menu to edit")
+                        pathParameters(
+                                parameterWithName("id").description("Id of menu to delete")
                         )
                 ))
                 .andExpect(status().isOk())
