@@ -37,7 +37,7 @@ public class RestaurantApi {
     }
 
     @DeleteMapping("/delete")
-    public void deleteRestaurant(@RequestBody RestaurantInfoDto restaurantInfoDto) {
+    public void deleteRestaurant(RestaurantInfoDto restaurantInfoDto) {
         restaurantService.deleteRestaurant(restaurantInfoDto);
     }
 }
