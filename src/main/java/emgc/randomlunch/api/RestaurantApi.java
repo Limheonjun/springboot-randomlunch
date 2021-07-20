@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/restaurants")
+@RequestMapping("/restaurant")
 public class RestaurantApi {
 
     private final RestaurantService restaurantService;
@@ -26,9 +26,9 @@ public class RestaurantApi {
         return restaurantService.getRestaurantList();
     }
 
-    @GetMapping("/category")
-    public List<RestaurantInfoDto> getRestaurantListByCategory(@RequestBody CategoryInfoDto categoryInfoDto) {
-        return restaurantService.getRestaurantListByCategory(categoryInfoDto);
+    @GetMapping("/list/{id}")
+    public List<RestaurantInfoDto> getRestaurantListByCategory(@PathVariable("id") Long categoryId) {
+        return restaurantService.getRestaurantListByCategory(categoryId);
     }
 
     @PostMapping("/edit")
@@ -36,8 +36,8 @@ public class RestaurantApi {
         restaurantService.editRestaurant(restaurantInfoDto);
     }
 
-    @DeleteMapping("/delete")
-    public void deleteRestaurant(RestaurantInfoDto restaurantInfoDto) {
-        restaurantService.deleteRestaurant(restaurantInfoDto);
+    @DeleteMapping("/delete/{id}")
+    public void deleteRestaurant(@PathVariable Long id) {
+        restaurantService.deleteRestaurant(id);
     }
 }

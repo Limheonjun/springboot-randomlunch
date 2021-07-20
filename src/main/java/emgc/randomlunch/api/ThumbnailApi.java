@@ -28,17 +28,10 @@ public class ThumbnailApi {
     private final FileService fileService;
     private final ThumbnailHashtagService thumbnailHashtagService;
 
-    @Value("${file.thumbnail.path}")
-    private String path;
-
     @PostMapping("/upload")
-    public void uploadThumbnailWithHashtag(@RequestPart("files")MultipartFile files[],
-                                           @RequestPart("restaurant")RestaurantInfoDto restaurantInfoDto) throws IOException {
-        Restaurant restaurant = restaurantService.getRestaurant(restaurantInfoDto);
-        List<Hashtag> hashtags = hashtagService.addHashtag(restaurantInfoDto.getHashtags().toArray(String[]::new));
-        List<File> fileList = fileService.addFileList(files, path);
-        List<Thumbnail> thumbnailList = thumbnailService.addThumbnailList(fileList, restaurant);
-        thumbnailHashtagService.addThumbnailHashtagList(thumbnailList, hashtags);
+    public void uploadThumbnailWithHashtag(@RequestPart("files") MultipartFile files[],
+                                           @RequestPart("restaurant") RestaurantInfoDto restaurantInfoDto) throws IOException {
+        thumbnailService.uploadThumbnailWithHashtag(files, restaurantInfoDto);
     }
     @GetMapping("/list")
     public List<ThumbnailInfoDto> getThumbnailList(Pageable pageable) {
@@ -56,9 +49,9 @@ public class ThumbnailApi {
         return thumbnailService.getThumbnailList(restaurant, pageable);
     }
 
-    @GetMapping("/carousel")
-    public List<ThumbnailInfoDto> getCarousel(@RequestBody RestaurantInfoDto restaurantInfoDto) {
-        Restaurant findRestaurant = restaurantService.getRestaurant(restaurantInfoDto);
+    @GetMapping("/carousel/{restaurantId}")
+    public List<ThumbnailInfoDto> getCarousel(@PathVariable Long restaurantId) {
+        Restaurant findRestaurant = restaurantService.getRestaurant(restaurantId);
         List<ThumbnailInfoDto> carousel = thumbnailService.getRandom8Thumbnail(findRestaurant);
         return carousel;
     }

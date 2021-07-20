@@ -29,9 +29,9 @@ public class CategoryApi {
         categoryService.editCategory(categoryInfoDto);
     }
 
-    @DeleteMapping("/delete")
-    public void deleteCategory(@RequestBody CategoryInfoDto categoryInfoDto) {
-        categoryService.deleteCategory(categoryInfoDto);
+    @DeleteMapping("/delete/{id}")
+    public void deleteCategory(@PathVariable Long id) {
+        categoryService.deleteCategory(id);
     }
 
 }

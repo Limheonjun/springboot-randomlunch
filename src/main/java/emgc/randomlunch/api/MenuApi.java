@@ -20,9 +20,9 @@ public class MenuApi {
         menuService.addMenu(menuInfoDto);
     }
 
-    @GetMapping("/list")
-    public List<MenuInfoDto> getAllMenus(RestaurantInfoDto restaurantInfoDto) {
-        return menuService.getMenuList(restaurantInfoDto);
+    @GetMapping("/list/{id}")
+    public List<MenuInfoDto> getAllMenus(@PathVariable("id") Long restaurantId) {
+        return menuService.getMenuList(restaurantId);
     }
 
     @PostMapping("/edit")
@@ -30,9 +30,9 @@ public class MenuApi {
         menuService.editMenu(menuInfoDto);
     }
 
-    @DeleteMapping("/delete")
-    public void deleteMenu(@RequestBody MenuInfoDto menuInfoDto) {
-        menuService.deleteMenu(menuInfoDto);
+    @DeleteMapping("/delete/{id}")
+    public void deleteMenu(@PathVariable Long id) {
+        menuService.deleteMenu(id);
     }
 
 
