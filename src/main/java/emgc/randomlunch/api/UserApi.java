@@ -1,6 +1,7 @@
 package emgc.randomlunch.api;
 
 import emgc.randomlunch.dto.UserDto;
+import emgc.randomlunch.exception.NoSuchUserException;
 import emgc.randomlunch.security.domain.Role;
 import emgc.randomlunch.security.domain.User;
 import emgc.randomlunch.security.domain.UserRole;
@@ -48,9 +49,9 @@ public class UserApi {
     ) {
         log.info("Received a login request for user {}", user.getEmail());
         User member = userRepository.findByEmail(user.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
+                .orElseThrow(() -> new NoSuchUserException("가입되지 않은 E-MAIL 입니다."));
         if (!passwordEncoder.matches(user.getPassword(), member.getPassword())) {
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+            throw new NoSuchUserException("잘못된 비밀번호입니다.");
         }
 
         String token = jwtAuthenticationProvider.createToken(member.getUsername(),
@@ -72,7 +73,7 @@ public class UserApi {
             @RequestBody @Valid UserDto userDto
     ){
         log.info("Received a update request for user {}", userDto.getEmail());
-        User user = userRepository.findById(userDto.getId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+        User user = userRepository.findById(userDto.getId()).orElseThrow(() -> new NoSuchUserException("존재하지 않는 사용자입니다."));
         user.updateInfo(userDto);
         return userDto;
     }
