@@ -26,4 +26,15 @@ public class ExceptionController {
         log.info("Error Message : {}", message);
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(NoSuchUserException.class)
+    public ResponseEntity methodValidationException(
+            NoSuchUserException e,
+            HttpServletRequest request
+    ){
+        String message = e.getMessage();
+        log.info("NoSuchUserException occured | url : {} , trace : {}", request.getRequestURI(), e.getStackTrace());
+        log.info("Error Message : {}", message);
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
 }
