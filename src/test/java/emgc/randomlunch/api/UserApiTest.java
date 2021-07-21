@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import emgc.randomlunch.config.RestDocsConfig;
 import emgc.randomlunch.dto.UserDto;
 import emgc.randomlunch.enums.Gender;
+import emgc.randomlunch.security.domain.Role;
 import emgc.randomlunch.security.domain.User;
+import emgc.randomlunch.security.domain.UserRole;
 import emgc.randomlunch.security.provider.JwtAuthenticationProvider;
 import emgc.randomlunch.security.repository.UserRepository;
 import org.junit.jupiter.api.*;
@@ -20,9 +22,9 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -30,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -55,9 +58,6 @@ class UserApiTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -65,15 +65,39 @@ class UserApiTest {
 
     private UserDto userDto;
 
+    private TestingAuthenticationToken testingAuthenticationToken;
+
     @BeforeAll
-    void makeUser(){
-        userDto = UserDto.builder()
+    void beforeAll(){
+        Role role = Role.builder()
+                .roleDesc("관리자")
+                .roleName("ROLE_ADMIN")
+                .build();
+
+        UserRole userRole = UserRole.builder()
+                .role(role)
+                .build();
+
+        User user = User.builder()
+                .id(1L)
+                .name("Lim")
                 .email("example@test.com")
                 .gender(Gender.MALE)
-                .name("Lim")
-                .password(passwordEncoder.encode("1234"))
+                .password("1234")
                 .phoneNumber("01022225555")
+                .userRole(Set.of(userRole))
                 .build();
+
+        userDto = new UserDto(user);
+        userDto.setPassword("1234");
+
+        testingAuthenticationToken = new TestingAuthenticationToken(user, null);
+    }
+
+
+    @BeforeAll
+    void makeUser(){
+
     }
 
     @BeforeEach
@@ -163,6 +187,7 @@ class UserApiTest {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         mockMvc.perform(get("/user/info")
+                .principal(testingAuthenticationToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(document("getInfo",
@@ -197,6 +222,7 @@ class UserApiTest {
         userDto.setPhoneNumber("01012345678");
 
         mockMvc.perform(post("/user/update")
+                .principal(testingAuthenticationToken)
                 .content(objectMapper.writeValueAsString(userDto))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -241,6 +267,7 @@ class UserApiTest {
         String emptyString = "";
 
         mockMvc.perform(post("/user/logout")
+                .principal(testingAuthenticationToken)
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(document("logoutUser")

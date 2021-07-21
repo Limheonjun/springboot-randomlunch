@@ -3,7 +3,10 @@ package emgc.randomlunch.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import emgc.randomlunch.config.RestDocsConfig;
 import emgc.randomlunch.dto.CategoryInfoDto;
-import emgc.randomlunch.repository.CategoryRepository;
+import emgc.randomlunch.enums.Gender;
+import emgc.randomlunch.security.domain.Role;
+import emgc.randomlunch.security.domain.User;
+import emgc.randomlunch.security.domain.UserRole;
 import emgc.randomlunch.service.CategoryService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -23,6 +28,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -48,13 +54,37 @@ class CategoryApiTest {
     private CategoryService categoryService;
 
     @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    private TestingAuthenticationToken testingAuthenticationToken;
+
+    @BeforeAll
+    void beforeAll(){
+        Role role = Role.builder()
+                .roleDesc("관리자")
+                .roleName("ROLE_ADMIN")
+                .build();
+
+        UserRole userRole = UserRole.builder()
+                .role(role)
+                .build();
+
+        User user = User.builder()
+                .email("test@example.com")
+                .gender(Gender.MALE)
+                .password(passwordEncoder.encode("1234"))
+                .phoneNumber("01012345678")
+                .userRole(Set.of(userRole))
+                .build();
+
+        testingAuthenticationToken = new TestingAuthenticationToken(user, null);
+    }
 
     @BeforeEach
     void setUp(WebApplicationContext webApplicationContext,
@@ -73,6 +103,7 @@ class CategoryApiTest {
         String content = objectMapper.writeValueAsString(category);
 
         mockMvc.perform(post("/category/upload")
+                .principal(testingAuthenticationToken)
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -100,8 +131,6 @@ class CategoryApiTest {
                         )
                 ))
                 .andExpect(status().isOk())
-                //.andExpect(jsonPath("$.length()").value(1))
-                //.andExpect(jsonPath("$[0].name").value("디저트"))
         ;
 
     }
@@ -114,6 +143,7 @@ class CategoryApiTest {
         categoryInfoDto.setName("맛있는디저트");
 
         mockMvc.perform(post("/category/edit")
+                .principal(testingAuthenticationToken)
                 .content(objectMapper.writeValueAsString(categoryInfoDto))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -135,6 +165,7 @@ class CategoryApiTest {
         CategoryInfoDto categoryInfoDto = categoryList.get(0);
 
         mockMvc.perform(delete("/category/delete/{id}", categoryInfoDto.getId())
+                .principal(testingAuthenticationToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(document("deleteCategory",

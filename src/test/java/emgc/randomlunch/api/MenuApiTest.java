@@ -7,8 +7,12 @@ import emgc.randomlunch.dto.MenuInfoDto;
 import emgc.randomlunch.dto.RestaurantInfoDto;
 import emgc.randomlunch.entity.Category;
 import emgc.randomlunch.entity.Restaurant;
+import emgc.randomlunch.enums.Gender;
 import emgc.randomlunch.repository.CategoryRepository;
 import emgc.randomlunch.repository.RestaurantRepository;
+import emgc.randomlunch.security.domain.Role;
+import emgc.randomlunch.security.domain.User;
+import emgc.randomlunch.security.domain.UserRole;
 import emgc.randomlunch.service.MenuService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +26,8 @@ import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -29,6 +35,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -36,7 +43,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -64,10 +71,15 @@ class MenuApiTest {
     @Autowired
     private MenuService menuService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private Restaurant restaurant;
 
+    private TestingAuthenticationToken testingAuthenticationToken;
+
     @BeforeAll
-    void setRestaurant(){
+    void beforeAll(){
         CategoryInfoDto category = new CategoryInfoDto(null, "디저트");
         Category save = categoryRepository.save(new Category(category));
 
@@ -80,6 +92,25 @@ class MenuApiTest {
                 .build();
 
         restaurant = restaurantRepository.save(restaurant);
+
+        Role role = Role.builder()
+                .roleDesc("관리자")
+                .roleName("ROLE_ADMIN")
+                .build();
+
+        UserRole userRole = UserRole.builder()
+                .role(role)
+                .build();
+
+        User user = User.builder()
+                .email("test@example.com")
+                .gender(Gender.MALE)
+                .password(passwordEncoder.encode("1234"))
+                .phoneNumber("01012345678")
+                .userRole(Set.of(userRole))
+                .build();
+
+        testingAuthenticationToken = new TestingAuthenticationToken(user, null);
     }
 
     @BeforeEach
@@ -98,6 +129,7 @@ class MenuApiTest {
         String content = objectMapper.writeValueAsString(menu);
 
         mockMvc.perform(post("/menu/upload")
+                .principal(testingAuthenticationToken)
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -149,6 +181,7 @@ class MenuApiTest {
         menuInfoDto.setPrice(7000);
 
         mockMvc.perform(post("/menu/edit")
+                .principal(testingAuthenticationToken)
                 .content(objectMapper.writeValueAsString(menuInfoDto))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -171,6 +204,7 @@ class MenuApiTest {
         MenuInfoDto menuInfoDto = menuList.get(0);
 
         mockMvc.perform(delete("/menu/delete/{id}", menuInfoDto.getId())
+                .principal(testingAuthenticationToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(document("deleteMenu",
