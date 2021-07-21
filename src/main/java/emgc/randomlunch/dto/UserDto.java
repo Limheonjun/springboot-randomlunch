@@ -20,7 +20,7 @@ public class UserDto {
     private String role;
 
     public UserDto(User user){
-        this.id = user.getId();
+        this.id = user.getId() != null ? user.getId() : null;
         this.email = user.getEmail();
         this.name = user.getName();
         this.phoneNumber = user.getPhoneNumber();
