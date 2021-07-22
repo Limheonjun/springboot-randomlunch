@@ -38,6 +38,8 @@ public class UserApi {
     public void join(
             @RequestBody @Valid UserDto user
     ){
+        if(user.getName().isBlank()) throw new IllegalArgumentException("이름은 필수값 입니다.");
+        if(user.getPassword().isBlank()) throw new IllegalArgumentException("비밀번호는 필수값 입니다.");
         log.info("Received a request to create a user {} ", user.getEmail());
         userService.joinUser(user);
     }
@@ -47,6 +49,7 @@ public class UserApi {
             @RequestBody @Valid UserDto user,
             HttpServletResponse response
     ) {
+        if(user.getPassword().isBlank()) throw new IllegalArgumentException("비밀번호는 필수값 입니다.");
         log.info("Received a login request for user {}", user.getEmail());
         User member = userRepository.findByEmail(user.getEmail())
                 .orElseThrow(() -> new NoSuchUserException("가입되지 않은 E-MAIL 입니다."));
