@@ -19,7 +19,7 @@ public class GeoIp2Config {
 
     @Bean
     public DatabaseReader databaseReader() throws IOException, GeoIp2Exception{
-        File resource = new File("file:///" + path);
+        File resource = new File("file://" + path);
         return new DatabaseReader.Builder(resource).build();
     }
 }
