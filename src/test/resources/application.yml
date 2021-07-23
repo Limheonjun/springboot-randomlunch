@@ -38,3 +38,7 @@ log:
 logging:
   level:
     root: info
+
+geoip2:
+  database:
+    path: ENC(Aw0xfVLmfK5hn7nlpWmoVjWcs68xBddgRtiSO46jVfL50iV8MbB42PGuW/x75AMQTfHM3FasyCo=)
