@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.RoleVoter;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,8 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private RoleConfig roleConfig;
 
-    @Autowired
-    private DatabaseReader databaseReader;
+    @Autowired(required = false)
+    private IpAuthenticationFilter ipAuthenticationFilter;
 
     @Value("${spring.profiles.active}")
     private String profile;
@@ -57,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtAuthenticationProvider), UsernamePasswordAuthenticationFilter.class);
 
-        if(profile.equals("prod")) http.addFilterBefore(new IpAuthenticationFilter(databaseReader), JwtAuthenticationFilter.class);
+        if(profile.equals("prod")) http.addFilterBefore(ipAuthenticationFilter, JwtAuthenticationFilter.class);
 
         roleConfig.setResourceRoles(http);
 

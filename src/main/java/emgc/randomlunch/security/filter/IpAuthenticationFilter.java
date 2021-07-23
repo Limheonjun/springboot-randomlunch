@@ -4,19 +4,25 @@ import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import emgc.randomlunch.util.HttpReqResUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import java.io.IOException;
 import java.net.InetAddress;
 
+@Component
+@Profile("prod")
 @Slf4j
 public class IpAuthenticationFilter implements Filter {
 
+    @Autowired
     private DatabaseReader databaseReader;
 
-    public IpAuthenticationFilter(DatabaseReader databaseReader) {
-        this.databaseReader = databaseReader;
-    }
+//    public IpAuthenticationFilter(DatabaseReader databaseReader) {
+//        this.databaseReader = databaseReader;
+//    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
