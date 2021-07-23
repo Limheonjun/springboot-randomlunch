@@ -1,6 +1,8 @@
 package emgc.randomlunch.security.config;
 
+import com.maxmind.geoip2.DatabaseReader;
 import emgc.randomlunch.security.factory.UrlResourcesMapFactoryBean;
+import emgc.randomlunch.security.filter.IpAuthenticationFilter;
 import emgc.randomlunch.security.filter.JwtAuthenticationFilter;
 import emgc.randomlunch.security.metadatasource.UrlFilterInvocationMetadataSource;
 import emgc.randomlunch.security.provider.JwtAuthenticationProvider;
@@ -36,6 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private RoleConfig roleConfig;
 
+    @Autowired
+    private DatabaseReader databaseReader;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -46,7 +51,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtAuthenticationProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtAuthenticationProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new IpAuthenticationFilter(databaseReader), JwtAuthenticationFilter.class);
 
         roleConfig.setResourceRoles(http);
 
