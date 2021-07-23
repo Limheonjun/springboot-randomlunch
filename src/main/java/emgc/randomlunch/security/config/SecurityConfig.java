@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired(required = false)
     private IpAuthenticationFilter ipAuthenticationFilter;
 
-    @Value("${spring.profiles.active}")
+    @Value("${spring.profiles.active:unknown}")
     private String profile;
 
     @Override
