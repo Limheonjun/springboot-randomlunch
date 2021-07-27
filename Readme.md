@@ -30,25 +30,45 @@ randomlunch/
   │ │  └── emgc/
   │ │    └──randomlinch/
   │ │      ├── api/
+  │ │      ├── aspect/
   │ │      ├── config/
   │ │      ├── dto/
   │ │      ├── entity/
   │ │      ├── enums/
-  │ │      ├── filter/
+  │ │      ├── exception/
   │ │      ├── interceptor/
   │ │      ├── repository/
-  │ │      ├── security/
-  │ │      └── service/
+  │ │      ├── service/
+  │ │      ├── util/
+  │ │      └── security/
+  │ │        ├── config/
+  │ │        ├── domain/
+  │ │        ├── factory/
+  │ │        ├── filter/
+  │ │        ├── metadatasource/
+  │ │        ├── provider/
+  │ │        ├── repository/
+  │ │        └── service/  
   │ ├── resources/
+  │ │  ├── static/
+  │ │  │ └── api/
+  │ │  │   └── docs/
   │ │  └── application.yml
   │ ├── resources-dev/
-  │ │  └── application-dev.yml
+  │ │  ├── application-dev.yml
   │ │  └── logback-dev.xml
   │ └── resources-prod/
-  │    └── application-prod.yml
+  │    ├── application-prod.yml
   │    └── logback-prod.xml
   └── test/
-    └── RandomlunchApplicationTests.java
+    ├── java/
+    │  └── emgc/
+    │    └──randomlinch/
+    │      └──api/
+    │      └──config/
+    └── resources/
+       └── application.yml
+           
 ```
 
 ## Done
@@ -58,12 +78,11 @@ randomlunch/
 - **Build different environment variables depending on the environment**
 - **Deployment automation**
 - **Access control according to authorization**
-
-## Todos
-
+- **Block foreign IP adress**
 - **Exception handling**
 
-
+## Todos
+- **Resource management by permission using database**
 
 ## Author
 
