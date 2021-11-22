@@ -8,6 +8,7 @@ import emgc.randomlunch.security.domain.UserRole;
 import emgc.randomlunch.security.provider.JwtAuthenticationProvider;
 import emgc.randomlunch.security.repository.UserRepository;
 import emgc.randomlunch.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -27,12 +28,13 @@ import java.util.stream.Collectors;
 @RequestMapping("/user")
 @Slf4j
 @Validated
+@RequiredArgsConstructor
 public class UserApi {
 
-    @Autowired private UserRepository userRepository;
-    @Autowired private PasswordEncoder passwordEncoder;
-    @Autowired private JwtAuthenticationProvider jwtAuthenticationProvider;
-    @Autowired private UserService userService;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtAuthenticationProvider jwtAuthenticationProvider;
+    private final UserService userService;
 
     @PostMapping("/join")
     public void join(
