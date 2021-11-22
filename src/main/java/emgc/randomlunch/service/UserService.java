@@ -7,18 +7,21 @@ import emgc.randomlunch.security.domain.UserRole;
 import emgc.randomlunch.security.repository.RoleRepository;
 import emgc.randomlunch.security.repository.UserRepository;
 import emgc.randomlunch.security.repository.UserRoleRepository;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired private UserRepository userRepository;
-    @Autowired private RoleRepository roleRepository;
-    @Autowired private UserRoleRepository userRoleRepository;
-    @Autowired private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final UserRoleRepository userRoleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public User getUser(User user) {
         return getUser(user.getId());
