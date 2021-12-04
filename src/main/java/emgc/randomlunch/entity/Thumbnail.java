@@ -35,6 +35,10 @@ public class Thumbnail extends BaseEntity {
 	private Restaurant restaurant;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "category_id")
+	private Category category;
+
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id")
 	private User user;
 
