@@ -13,12 +13,12 @@ import javax.persistence.Id;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Question extends BaseEntity{
+public class Question extends BaseEntity {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "question_id")
-    private Long id;
-    private String email;
-    private String content;
+	@Id
+	@GeneratedValue
+	@Column(name = "question_id")
+	private Long id;
+	private String content;
+
 }
