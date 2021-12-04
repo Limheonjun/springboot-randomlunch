@@ -35,10 +35,6 @@ public class Restaurant extends BaseEntity {
 	@OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
 	private List<Thumbnail> thumbnailList = new ArrayList<>();
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "category_id")
-	private Category category;
-
 	private String name;
 	private String address;
 	private String latitude;
