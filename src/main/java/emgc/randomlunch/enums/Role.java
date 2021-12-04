@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public enum Role {
-    ADMIN, USER, ANONYMOUS ;
+    ADMIN,
+    USER
+    ;
 
     public static String getRoleHierarchy() {
         return Arrays.stream(Role.values())
