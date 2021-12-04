@@ -1,9 +1,10 @@
-package emgc.randomlunch.security.domain;
+package emgc.randomlunch.entity;
 
 import emgc.randomlunch.dto.UserDto;
-import emgc.randomlunch.entity.BaseTimeEntity;
-import emgc.randomlunch.entity.Thumbnail;
 import emgc.randomlunch.enums.Gender;
+import emgc.randomlunch.enums.Role;
+import emgc.randomlunch.enums.ServiceProvider;
+import emgc.randomlunch.security.domain.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,27 +29,22 @@ public class User extends BaseTimeEntity implements UserDetails{
     @Column(name = "user_id")
     private Long id;
 
-    private String email;
-    private String password;
-    private String phoneNumber;
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private ServiceProvider serviceProvider;
 
     @Enumerated(EnumType.STRING)
-    private Gender gender;
+    private Role role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<UserRole> userRole = new HashSet<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Thumbnail> thumbnailList = new ArrayList<>();
+
+    private String email;
+    private String password;
+    private String nickname;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.userRole.stream()
-                .map(UserRole::getRole)
-                .map(Role::getRoleName)
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        return Arrays.asList(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
@@ -84,9 +80,6 @@ public class User extends BaseTimeEntity implements UserDetails{
     public User updateInfo(UserDto userDto){
         this.email = userDto.getEmail();
         this.password = userDto.getPassword();
-        this.phoneNumber = userDto.getPhoneNumber();
-        this.name = userDto.getName();
-        this.gender = userDto.getGender();
         return this;
     }
 }
