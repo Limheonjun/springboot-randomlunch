@@ -1,11 +1,15 @@
 package emgc.randomlunch.entity;
 
-import emgc.randomlunch.dto.CategoryInfoDto;
-import lombok.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -15,17 +19,11 @@ import java.util.List;
 @AllArgsConstructor
 public class Category extends BaseEntity {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "category_id")
-    private Long id;
+	@Id
+	@GeneratedValue
+	@Column(name = "category_id")
+	private Long id;
 
-    private String name;
+	private String name;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Restaurant> restaurant = new ArrayList<>();
-
-    public Category(CategoryInfoDto categoryInfoDto) {
-        this.name = categoryInfoDto.getName();
-    }
 }
