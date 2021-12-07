@@ -1,13 +1,19 @@
 package emgc.randomlunch.service.function;
 
-import emgc.randomlunch.entity.User;
+import emgc.randomlunch.dto.JoinRequest;
+import emgc.randomlunch.dto.LoginRequest;
+import emgc.randomlunch.dto.LoginResponse;
 
 public interface UserService {
 
-	User join(User user);
+	void join(JoinRequest request);
 
-	User login(User user);
+	LoginResponse login(LoginRequest request);
 
-	void logout();
+	void logout(String token);
+
+	boolean isExist(String email);
+
+	boolean isTokenExpired(String token);
 
 }
