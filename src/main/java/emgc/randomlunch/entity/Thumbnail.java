@@ -46,12 +46,19 @@ public class Thumbnail extends BaseEntity {
 	private List<ThumbnailHashtag> thumbnailHashtagList = new ArrayList<>();
 
 	private Long size;
+
 	private Integer height;
+
 	private Integer width;
+
 	private Long likes;
+
 	private Long views;
+
 	private String originalFileName;
+
 	private String fileName;
+
 	private String extension;
 
 }

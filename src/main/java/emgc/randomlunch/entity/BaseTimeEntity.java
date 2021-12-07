@@ -1,15 +1,17 @@
 package emgc.randomlunch.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
-import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
@@ -17,10 +19,11 @@ import java.time.LocalDateTime;
 @Setter
 public class BaseTimeEntity {
 
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createDate;
+	@CreatedDate
+	@Column(updatable = false)
+	private LocalDateTime createDate;
 
-    @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
+	@LastModifiedDate
+	private LocalDateTime lastModifiedDate;
+
 }
