@@ -8,11 +8,18 @@ import lombok.Getter;
 @Builder
 public class LoginResponse {
 
+	private Long userId;
+
 	private String email;
 
+	private String role;
+
 	public static LoginResponse from(User user) {
+		Long userId = user.getId();
 		String email = user.getEmail();
-		return LoginResponse.builder().email(email).build();
+		String role = user.getRole().name();
+
+		return LoginResponse.builder().userId(userId).email(email).role(role).build();
 	}
 
 }
