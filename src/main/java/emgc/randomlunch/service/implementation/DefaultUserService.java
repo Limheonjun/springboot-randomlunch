@@ -1,12 +1,16 @@
 package emgc.randomlunch.service.implementation;
 
+import static emgc.randomlunch.enums.Role.*;
+
 import org.springframework.stereotype.Service;
 
 import emgc.randomlunch.dto.JoinRequest;
+import emgc.randomlunch.dto.JoinResponse;
 import emgc.randomlunch.dto.LoginRequest;
 import emgc.randomlunch.dto.LoginResponse;
 import emgc.randomlunch.entity.ExpiredToken;
 import emgc.randomlunch.entity.User;
+import emgc.randomlunch.exception.ExistingUserException;
 import emgc.randomlunch.exception.NoSuchUserException;
 import emgc.randomlunch.repository.ExpiredTokenRepository;
 import emgc.randomlunch.repository.UserRepository;
@@ -18,20 +22,23 @@ import lombok.RequiredArgsConstructor;
 public class DefaultUserService implements UserService {
 
 	private final UserRepository userRepository;
+
 	private final ExpiredTokenRepository expiredTokenRepository;
 
 	@Override
-	public void join(JoinRequest request) {
+	public JoinResponse join(JoinRequest request) {
 		if (isExist(request.getEmail())) {
-			// throw new ExistingUserException();
+			throw new ExistingUserException();
 		}
 
 		User user = User.builder()
 			.email(request.getEmail())
-			.password(request.getPassword()) //TODO : 암호화
+			.password(request.getPassword())
+			.role(USER)
 			.build();
 
-		userRepository.save(user);
+		User savedUser = userRepository.save(user);
+		return JoinResponse.from(savedUser);
 	}
 
 	@Override
