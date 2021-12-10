@@ -4,10 +4,9 @@ import static emgc.randomlunch.enums.Role.*;
 
 import org.springframework.stereotype.Service;
 
-import emgc.randomlunch.dto.JoinRequest;
-import emgc.randomlunch.dto.JoinResponse;
-import emgc.randomlunch.dto.LoginRequest;
-import emgc.randomlunch.dto.LoginResponse;
+import emgc.randomlunch.dto.user.JoinRequest;
+import emgc.randomlunch.dto.user.LoginRequest;
+import emgc.randomlunch.dto.user.UserResponse;
 import emgc.randomlunch.entity.ExpiredToken;
 import emgc.randomlunch.entity.User;
 import emgc.randomlunch.exception.ExistingUserException;
@@ -26,7 +25,7 @@ public class DefaultUserService implements UserService {
 	private final ExpiredTokenRepository expiredTokenRepository;
 
 	@Override
-	public JoinResponse join(JoinRequest request) {
+	public void join(JoinRequest request) {
 		if (isExist(request.getEmail())) {
 			throw new ExistingUserException();
 		}
@@ -37,19 +36,18 @@ public class DefaultUserService implements UserService {
 			.role(USER)
 			.build();
 
-		User savedUser = userRepository.save(user);
-		return JoinResponse.from(savedUser);
+		userRepository.save(user);
 	}
 
 	@Override
-	public LoginResponse login(LoginRequest request) {
+	public UserResponse login(LoginRequest request) {
 		User user = userRepository.findByEmail(request.getEmail()).orElseThrow(NoSuchUserException::new);
 
 		if (!user.getPassword().matches(request.getPassword())) {
 			throw new NoSuchUserException();
 		}
 
-		return LoginResponse.from(user);
+		return UserResponse.from(user);
 	}
 
 	@Override

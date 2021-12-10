@@ -1,15 +1,14 @@
 package emgc.randomlunch.service.function;
 
-import emgc.randomlunch.dto.JoinRequest;
-import emgc.randomlunch.dto.JoinResponse;
-import emgc.randomlunch.dto.LoginRequest;
-import emgc.randomlunch.dto.LoginResponse;
+import emgc.randomlunch.dto.user.JoinRequest;
+import emgc.randomlunch.dto.user.LoginRequest;
+import emgc.randomlunch.dto.user.UserResponse;
 
 public interface UserService {
 
-	JoinResponse join(JoinRequest request);
+	void join(JoinRequest request);
 
-	LoginResponse login(LoginRequest request);
+	UserResponse login(LoginRequest request);
 
 	void logout(String token);
 
