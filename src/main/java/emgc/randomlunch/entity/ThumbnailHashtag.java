@@ -33,4 +33,8 @@ public class ThumbnailHashtag extends BaseEntity {
 	@JoinColumn(name = "hashtag_id")
 	private Hashtag hashtag;
 
+	public static ThumbnailHashtag from(Hashtag hashtag) {
+		return ThumbnailHashtag.builder().hashtag(hashtag).build();
+	}
+
 }
