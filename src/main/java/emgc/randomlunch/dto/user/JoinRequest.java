@@ -4,6 +4,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import lombok.Builder;
 import lombok.Getter;
 
@@ -23,5 +25,9 @@ public class JoinRequest {
 	@NotBlank(message = "닉네임은 필수 입력 값입니다.")
 	@Size(min = 1, max = 20, message = "닉네임은 1~20자 사이여야 합니다.")
 	private String nickname;
+
+	public void encryptPassword(PasswordEncoder passwordEncoder) {
+		this.password = passwordEncoder.encode(password);
+	}
 
 }
