@@ -1,10 +1,9 @@
 package emgc.randomlunch.service.function;
 
-import emgc.randomlunch.dto.QuestionRequest;
-import emgc.randomlunch.entity.Question;
+import emgc.randomlunch.dto.question.QuestionRequest;
 
 public interface QuestionService {
 
-	void uploadQuestion(QuestionRequest request, Long userId);
+	void uploadQuestion(QuestionRequest request, String email);
 
 }
