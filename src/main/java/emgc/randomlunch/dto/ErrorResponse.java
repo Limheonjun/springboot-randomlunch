@@ -21,13 +21,20 @@ public class ErrorResponse {
 
 	private String path;
 
-	private List<Error> errors;
+	private List<Error> errors = new ArrayList<>();
 
 	public static ErrorResponse of(HttpStatus errorCode, String path, BindingResult bindingResult) {
-
 		return ErrorResponse.builder()
 			.status(errorCode.value())
 			.errors(processError(bindingResult))
+			.timestamp(LocalDateTime.now())
+			.path(path)
+			.build();
+	}
+
+	public static ErrorResponse of(HttpStatus errorCode, String path) {
+		return ErrorResponse.builder()
+			.status(errorCode.value())
 			.timestamp(LocalDateTime.now())
 			.path(path)
 			.build();
