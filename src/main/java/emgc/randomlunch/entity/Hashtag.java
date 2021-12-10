@@ -32,4 +32,8 @@ public class Hashtag extends BaseEntity {
 	@OneToMany(mappedBy = "hashtag", cascade = CascadeType.ALL)
 	private List<ThumbnailHashtag> thumbnailHashtagList = new ArrayList<>();
 
+	public static Hashtag from(String word) {
+		return Hashtag.builder().word(word).build();
+	}
+
 }
