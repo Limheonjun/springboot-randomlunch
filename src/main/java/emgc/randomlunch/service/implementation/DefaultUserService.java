@@ -2,6 +2,7 @@ package emgc.randomlunch.service.implementation;
 
 import static emgc.randomlunch.enums.Role.*;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import emgc.randomlunch.dto.user.JoinRequest;
@@ -24,12 +25,15 @@ public class DefaultUserService implements UserService {
 
 	private final ExpiredTokenRepository expiredTokenRepository;
 
+	private final PasswordEncoder passwordEncoder;
+
 	@Override
 	public void join(JoinRequest request) {
 		if (isExist(request.getEmail())) {
 			throw new ExistingUserException();
 		}
 
+		request.encryptPassword(passwordEncoder);
 		User user = User.from(request);
 		userRepository.save(user);
 	}
@@ -38,7 +42,7 @@ public class DefaultUserService implements UserService {
 	public UserResponse login(LoginRequest request) {
 		User user = userRepository.findByEmail(request.getEmail()).orElseThrow(NoSuchUserException::new);
 
-		if (!user.getPassword().equals(request.getPassword())) {
+		if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
 			throw new NoSuchUserException();
 		}
 
