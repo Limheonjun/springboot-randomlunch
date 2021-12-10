@@ -10,4 +10,6 @@ public interface HashtagRepository extends JpaRepository<Hashtag, Long> {
 
 	List<Hashtag> findAllByWordLike(String word);
 
+	List<Hashtag> findAllByWordIn(List<String> wordList);
+
 }
