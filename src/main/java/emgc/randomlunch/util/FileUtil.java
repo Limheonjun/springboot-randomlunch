@@ -25,16 +25,16 @@ public class FileUtil {
 	}
 
 	public static String getExtension(MultipartFile file) {
-		String originalName = getOriginFullName(file);
+		String originalName = getOriginFileName(file);
 		return originalName.substring(originalName.lastIndexOf(".") + 1);
 	}
 
 	public static String getOriginalName(MultipartFile file) {
-		String originalName = getOriginFullName(file);
+		String originalName = getOriginFileName(file);
 		return originalName.substring(0, originalName.lastIndexOf("."));
 	}
 
-	public static String getOriginFullName(MultipartFile file) {
+	public static String getOriginFileName(MultipartFile file) {
 		return file.getOriginalFilename();
 	}
 
