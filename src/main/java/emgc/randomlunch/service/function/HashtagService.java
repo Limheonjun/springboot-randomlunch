@@ -6,6 +6,6 @@ import emgc.randomlunch.entity.Hashtag;
 
 public interface HashtagService {
 
-	List<Hashtag> getHashtagListByWord(String word);
+	List<Hashtag> createHashtagList(List<String> wordList);
 
 }
