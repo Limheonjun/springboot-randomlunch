@@ -1,5 +1,8 @@
 package emgc.randomlunch.entity;
 
+import static emgc.randomlunch.enums.Role.*;
+import static emgc.randomlunch.enums.ServiceProvider.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import emgc.randomlunch.dto.user.JoinRequest;
 import emgc.randomlunch.enums.Role;
 import emgc.randomlunch.enums.ServiceProvider;
 import lombok.AllArgsConstructor;
@@ -32,6 +36,7 @@ public class User extends BaseTimeEntity {
 	private Long id;
 
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private ServiceProvider serviceProvider;
 
 	@Enumerated(EnumType.STRING)
@@ -43,10 +48,26 @@ public class User extends BaseTimeEntity {
 	@OneToMany(mappedBy = "user")
 	private List<Question> questionList = new ArrayList<>();
 
+	@Column(unique = true, nullable = false, updatable = false)
 	private String email;
 
 	private String password;
 
+	@Column(nullable = false, length = 20)
 	private String nickname;
+
+	public static User from(JoinRequest request) {
+		String email = request.getEmail();
+		String password = request.getPassword();
+		String nickname = request.getNickname();
+
+		return User.builder()
+			.email(request.getEmail())
+			.password(request.getPassword())
+			.nickname(nickname)
+			.serviceProvider(LOCAL)
+			.role(USER)
+			.build();
+	}
 
 }
