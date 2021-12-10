@@ -4,16 +4,12 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 
-import emgc.randomlunch.dto.ThumbnailResponse;
-import emgc.randomlunch.entity.Category;
-import emgc.randomlunch.entity.Restaurant;
-import emgc.randomlunch.entity.Thumbnail;
-import emgc.randomlunch.entity.ThumbnailHashtag;
+import emgc.randomlunch.dto.thumbnail.ThumbnailResponse;
 
 public interface ThumbnailService {
 
 	List<ThumbnailResponse> getThumbnailListByRestaurantName(
-		String restaurentName,
+		String restaurantName,
 		Pageable pageable
 	);
 

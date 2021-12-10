@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import emgc.randomlunch.dto.ThumbnailResponse;
+import emgc.randomlunch.dto.thumbnail.ThumbnailResponse;
 import emgc.randomlunch.entity.Category;
 import emgc.randomlunch.entity.Hashtag;
 import emgc.randomlunch.entity.Restaurant;
