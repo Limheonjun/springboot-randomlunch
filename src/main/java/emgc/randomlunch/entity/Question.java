@@ -28,7 +28,7 @@ public class Question extends BaseEntity {
 	@Column(name = "question_id")
 	private Long id;
 
-	@Column(length = 50)
+	@Column(length = 30)
 	private String title;
 
 	private String content;
