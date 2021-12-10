@@ -1,4 +1,4 @@
-package emgc.randomlunch.dto;
+package emgc.randomlunch.dto.user;
 
 import emgc.randomlunch.entity.User;
 import lombok.Builder;

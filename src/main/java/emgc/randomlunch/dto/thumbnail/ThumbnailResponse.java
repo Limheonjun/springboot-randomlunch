@@ -1,4 +1,4 @@
-package emgc.randomlunch.dto;
+package emgc.randomlunch.dto.thumbnail;
 
 import emgc.randomlunch.entity.Thumbnail;
 import lombok.AllArgsConstructor;

@@ -1,11 +1,11 @@
-package emgc.randomlunch.dto;
+package emgc.randomlunch.dto.user;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class JoinRequest {
+public class LoginRequest {
 
 	private String email;
 

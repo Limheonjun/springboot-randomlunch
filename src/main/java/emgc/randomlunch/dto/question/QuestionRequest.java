@@ -1,4 +1,4 @@
-package emgc.randomlunch.dto;
+package emgc.randomlunch.dto.question;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
