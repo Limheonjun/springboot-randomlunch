@@ -1,7 +1,5 @@
 package emgc.randomlunch.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -13,16 +11,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import emgc.randomlunch.filter.JwtAuthenticationFilter;
-import emgc.randomlunch.util.JwtUtil;
+import emgc.randomlunch.service.function.UserService;
+import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private JwtUtil jwtAuthenticationProvider;
-
-	@Value("${spring.profiles.active:unknown}")
-	private String profile;
+	private final UserService userService;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -34,8 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.formLogin().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
-			.addFilterBefore(new JwtAuthenticationFilter(jwtAuthenticationProvider),
-				UsernamePasswordAuthenticationFilter.class);
+			.addFilterBefore(new JwtAuthenticationFilter(userService), UsernamePasswordAuthenticationFilter.class);
 
 	}
 
