@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import emgc.randomlunch.dto.QuestionRequest;
+import emgc.randomlunch.dto.question.QuestionRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,6 +28,7 @@ public class Question extends BaseEntity {
 	@Column(name = "question_id")
 	private Long id;
 
+	@Column(length = 50)
 	private String title;
 
 	private String content;
