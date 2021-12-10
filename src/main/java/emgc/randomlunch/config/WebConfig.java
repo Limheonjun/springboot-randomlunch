@@ -1,11 +1,9 @@
 package emgc.randomlunch.config;
 
-import emgc.randomlunch.interceptor.UrlPathInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -14,11 +12,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Value("${file.thumbnail.path}")
     private String path;
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new UrlPathInterceptor());
-    }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
