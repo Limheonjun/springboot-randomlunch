@@ -30,12 +30,7 @@ public class DefaultUserService implements UserService {
 			throw new ExistingUserException();
 		}
 
-		User user = User.builder()
-			.email(request.getEmail())
-			.password(request.getPassword())
-			.role(USER)
-			.build();
-
+		User user = User.from(request);
 		userRepository.save(user);
 	}
 
@@ -43,7 +38,7 @@ public class DefaultUserService implements UserService {
 	public UserResponse login(LoginRequest request) {
 		User user = userRepository.findByEmail(request.getEmail()).orElseThrow(NoSuchUserException::new);
 
-		if (!user.getPassword().matches(request.getPassword())) {
+		if (!user.getPassword().equals(request.getPassword())) {
 			throw new NoSuchUserException();
 		}
 
@@ -54,6 +49,12 @@ public class DefaultUserService implements UserService {
 	public void logout(String token) {
 		ExpiredToken expiredToken = ExpiredToken.builder().token(token).build();
 		expiredTokenRepository.save(expiredToken);
+	}
+
+	@Override
+	public UserResponse getUser(String email) {
+		User user = userRepository.findByEmail(email).orElseThrow(NoSuchUserException::new);
+		return UserResponse.from(user);
 	}
 
 	@Override

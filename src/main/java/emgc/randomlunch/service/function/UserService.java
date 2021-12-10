@@ -12,6 +12,8 @@ public interface UserService {
 
 	void logout(String token);
 
+	UserResponse getUser(String email);
+
 	boolean isExist(String email);
 
 	boolean isTokenExpired(String token);
