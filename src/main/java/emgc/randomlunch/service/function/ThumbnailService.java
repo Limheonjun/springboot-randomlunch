@@ -1,9 +1,12 @@
 package emgc.randomlunch.service.function;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
+import emgc.randomlunch.dto.thumbnail.ThumbnailCreateRequest;
 import emgc.randomlunch.dto.thumbnail.ThumbnailResponse;
 
 public interface ThumbnailService {
@@ -29,5 +32,11 @@ public interface ThumbnailService {
 		String keyword,
 		Pageable pageable
 	);
+
+	ThumbnailResponse createThumbnailWithHashtag(
+		MultipartFile file,
+		String email,
+		ThumbnailCreateRequest request
+	) throws IOException;
 
 }
