@@ -32,9 +32,9 @@ public class ThumbnailResponse {
 
 	private Integer width;
 
-	private Long likes;
+	private Integer likes;
 
-	private Long views;
+	private Integer views;
 
 	private String originalFileName;
 
@@ -51,8 +51,8 @@ public class ThumbnailResponse {
 		Long size = thumbnail.getSize();
 		Integer height = thumbnail.getHeight();
 		Integer width = thumbnail.getWidth();
-		Long likes = thumbnail.getLikes();
-		Long views = thumbnail.getViews();
+		Integer likes = thumbnail.getLikes();
+		Integer views = thumbnail.getViews();
 		String originalFileName = thumbnail.getOriginalFileName();
 		String fileName = thumbnail.getFileName();
 		String extension = thumbnail.getExtension();
