@@ -1,6 +1,6 @@
 package emgc.randomlunch.enums;
 
-public enum Category {
+public enum CategoryType {
 	CHICKEN("치킨"),
 	DESSERT("카페/디저트"),
 	SNACK("분식"),
@@ -19,7 +19,7 @@ public enum Category {
 
 	private String value;
 
-	Category(String value) {
+	CategoryType(String value) {
 		this.value = value;
 	}
 
