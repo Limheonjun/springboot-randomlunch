@@ -48,7 +48,7 @@ public class Thumbnail extends BaseEntity {
 	private User user;
 
 	@OneToMany(mappedBy = "thumbnail", cascade = CascadeType.PERSIST)
-	private List<ThumbnailHashtag> thumbnailHashtagList = new ArrayList<>();
+	private List<ThumbnailHashtag> thumbnailHashtag = new ArrayList<>();
 
 	private Long size;
 
@@ -72,10 +72,10 @@ public class Thumbnail extends BaseEntity {
 		Category category,
 		User user
 	) throws IOException {
-		BufferedImage bufferedImage = FileUtil.toBufferedImage(file);
+		// BufferedImage bufferedImage = FileUtil.toBufferedImage(file);
 		long size = file.getSize();
-		int height = FileUtil.getHeight(bufferedImage);
-		int width = FileUtil.getWidth(bufferedImage);
+		// int height = FileUtil.getHeight(bufferedImage);
+		// int width = FileUtil.getWidth(bufferedImage);
 		String extension = FileUtil.getExtension(file);
 		String originalName = FileUtil.getOriginalName(file);
 		String originFileName = FileUtil.getOriginFileName(file);
@@ -85,8 +85,8 @@ public class Thumbnail extends BaseEntity {
 			.category(category)
 			.user(user)
 			.size(size)
-			.width(width)
-			.height(height)
+			// .width(width)
+			// .height(height)
 			.extension(extension)
 			.originalFileName(originalName)
 			.originalFileName(originFileName)
