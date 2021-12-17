@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("thumbnails")
 public class ThumbnailApi {
 
-	private ThumbnailService thumbnailService;
+	private final ThumbnailService thumbnailService;
 
 	@GetMapping(value = "", params = {"restaurantName", "page", "size"})
 	public List<ThumbnailResponse> getThumbnailListByRestaurantName(
