@@ -23,7 +23,7 @@ import emgc.randomlunch.service.function.UserService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("users")
 @RequiredArgsConstructor
 public class UserApi {
 
