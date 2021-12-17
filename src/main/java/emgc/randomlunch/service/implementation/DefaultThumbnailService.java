@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import emgc.randomlunch.dto.thumbnail.ThumbnailCreateRequest;
@@ -24,6 +25,7 @@ import emgc.randomlunch.repository.ThumbnailRepository;
 import emgc.randomlunch.repository.UserRepository;
 import emgc.randomlunch.service.function.HashtagService;
 import emgc.randomlunch.service.function.ThumbnailService;
+import emgc.randomlunch.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -132,5 +134,30 @@ public class DefaultThumbnailService implements ThumbnailService {
 		thumbnailHashtagRepository.saveAll(thumbnailHashtagList);
 
 		return ThumbnailResponse.from(thumbnail);
+	}
+
+	@Override
+	@Transactional
+	public void uploadThumbnails(
+		List<MultipartFile> thumbnails,
+		ThumbnailCreateRequest request,
+		String email
+	) throws IOException {
+		User user = userRepository.findByEmail(email).orElseThrow();
+		Restaurant restaurant = restaurantRepository.findById(request.getRestaurantId()).orElseThrow();
+		Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow();
+		List<Hashtag> hashtagList = hashtagService.createHashtagList(request.getHashtagList());
+
+		for(MultipartFile file : thumbnails) {
+			FileUtil.saveFile(file, "C:\\Users\\MS\\Desktop\\thumbnail");
+			Thumbnail thumbnail = Thumbnail.of(file, restaurant, category, user);
+			Thumbnail savedThumbnail = thumbnailRepository.save(thumbnail);
+
+			//썸네일해시태그 생성
+			List<ThumbnailHashtag> thumbnailHashtagList = hashtagList.stream()
+				.map(hashtag -> ThumbnailHashtag.builder().hashtag(hashtag).thumbnail(savedThumbnail).build())
+				.collect(Collectors.toList());
+			thumbnailHashtagRepository.saveAll(thumbnailHashtagList);
+		}
 	}
 }

@@ -39,4 +39,10 @@ public interface ThumbnailService {
 		ThumbnailCreateRequest request
 	) throws IOException;
 
+	void uploadThumbnails(
+		List<MultipartFile> thumbnails,
+		ThumbnailCreateRequest request,
+		String email
+	) throws IOException;
+
 }
