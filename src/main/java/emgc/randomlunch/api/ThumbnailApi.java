@@ -1,5 +1,7 @@
 package emgc.randomlunch.api;
 
+import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -7,10 +9,14 @@ import javax.validation.constraints.Positive;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import emgc.randomlunch.dto.thumbnail.ThumbnailCreateRequest;
 import emgc.randomlunch.dto.thumbnail.ThumbnailResponse;
 import emgc.randomlunch.service.function.ThumbnailService;
 import lombok.RequiredArgsConstructor;
@@ -60,6 +66,16 @@ public class ThumbnailApi {
 		@RequestParam Pageable pageable
 	) {
 		return thumbnailService.getThumbnailListByCategoryAndHashtag(categoryId, keyword, pageable);
+	}
+
+	@PostMapping("")
+	public void uploadThumbnails(
+		@RequestPart("thumbnails") List<MultipartFile> thumbnails,
+		@RequestPart("request") ThumbnailCreateRequest request,
+		Principal principal
+	) throws IOException {
+		String email = principal.getName();
+		thumbnailService.uploadThumbnails(thumbnails, request, email);
 	}
 
 }
