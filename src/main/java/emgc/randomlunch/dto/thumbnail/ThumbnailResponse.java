@@ -47,7 +47,7 @@ public class ThumbnailResponse {
 		Long restaurantId = thumbnail.getRestaurant().getId();
 		String restaurantName = thumbnail.getRestaurant().getName();
 		Long categoryId = thumbnail.getCategory().getId();
-		String categoryName = thumbnail.getCategory().getName();
+		String categoryName = thumbnail.getCategory().getType().getValue();
 		Long size = thumbnail.getSize();
 		Integer height = thumbnail.getHeight();
 		Integer width = thumbnail.getWidth();
