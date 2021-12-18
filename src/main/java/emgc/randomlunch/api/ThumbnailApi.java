@@ -1,6 +1,7 @@
 package emgc.randomlunch.api;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 
@@ -28,20 +29,26 @@ public class ThumbnailApi {
 
 	private final ThumbnailService thumbnailService;
 
-	@GetMapping(value = "", params = {"restaurantName", "page", "size"})
+	@GetMapping(value = "", params = {"restaurantName", "latitude", "longitude", "distance", "page", "size"})
 	public List<ThumbnailResponse> getThumbnailListByRestaurantName(
 		@RequestParam @NotNull(message = "음식점명은 필수 입력 값입니다") String restaurantName,
-		@RequestParam Pageable pageable
+		@RequestParam BigDecimal latitude,
+		@RequestParam BigDecimal longitude,
+		@RequestParam Float distance,
+		Pageable pageable
 	) {
-		return thumbnailService.getThumbnailListByRestaurantName(restaurantName, pageable);
+		return thumbnailService.getThumbnailListByRestaurantName(restaurantName, latitude, longitude, distance, pageable);
 	}
 
-	@GetMapping(value = "", params = {"keyword", "page", "size"})
+	@GetMapping(value = "", params = {"keyword", "latitude", "longitude", "distance", "page", "size"})
 	public List<ThumbnailResponse> getThumbnailListByHashtag(
 		@RequestParam @NotNull(message = "해시태그는 필수 입력 값입니다") String keyword,
-		@RequestParam Pageable pageable
+		@RequestParam BigDecimal latitude,
+		@RequestParam BigDecimal longitude,
+		@RequestParam Float distance,
+		Pageable pageable
 	) {
-		return thumbnailService.getThumbnailListByHashtag(keyword, pageable);
+		return thumbnailService.getThumbnailListByHashtag(keyword, latitude, longitude, distance, pageable);
 	}
 
 	@GetMapping(value = "", params = {"categoryId", "restaurantName", "page", "size"})
