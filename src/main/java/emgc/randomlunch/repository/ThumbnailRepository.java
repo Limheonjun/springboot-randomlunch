@@ -31,8 +31,9 @@ public interface ThumbnailRepository extends JpaRepository<Thumbnail, Long> {
 	 * HashtagRepository.findAllByWordLike를 통해 해시태그 검색
 	 * ThumbnailHashtagRepository.findAllByHashtagIn을 통해 해시태그가 포함된 튜플 선택
 	 */
-	List<Thumbnail> findAllByThumbnailHashtagInOrderByCreateDateDesc(
+	List<Thumbnail> findAllByThumbnailHashtagInAndRestaurantInOrderByCreateDateDesc(
 		List<ThumbnailHashtag> thumbnailHashtagList,
+		List<Restaurant> restaurantList,
 		Pageable pageable
 	);
 
