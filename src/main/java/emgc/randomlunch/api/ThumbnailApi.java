@@ -37,7 +37,8 @@ public class ThumbnailApi {
 		@RequestParam Float distance,
 		Pageable pageable
 	) {
-		return thumbnailService.getThumbnailListByRestaurantName(restaurantName, latitude, longitude, distance, pageable);
+		return thumbnailService.getThumbnailListByRestaurantName(restaurantName, latitude, longitude, distance,
+			pageable);
 	}
 
 	@GetMapping(value = "", params = {"keyword", "latitude", "longitude", "distance", "page", "size"})
@@ -51,16 +52,21 @@ public class ThumbnailApi {
 		return thumbnailService.getThumbnailListByHashtag(keyword, latitude, longitude, distance, pageable);
 	}
 
-	@GetMapping(value = "", params = {"categoryId", "restaurantName", "page", "size"})
+	@GetMapping(value = "", params = {"categoryId", "restaurantName", "latitude", "longitude", "distance", "page",
+		"size"})
 	public List<ThumbnailResponse> getThumbnailListByCategoryAndRestaurantName(
 		@RequestParam
 		@NotNull(message = "카테고리 아이디는 필수 입력 값입니다")
 		@Positive(message = "카테고리 아이디는 양수만 입력 가능합니다.") Long categoryId,
 		@RequestParam
 		@NotNull(message = "음식점명은 필수 입력 값입니다") String restaurantName,
-		@RequestParam Pageable pageable
+		@RequestParam BigDecimal latitude,
+		@RequestParam BigDecimal longitude,
+		@RequestParam Float distance,
+		Pageable pageable
 	) {
-		return thumbnailService.getThumbnailListByCategoryAndRestaurantName(categoryId, restaurantName, pageable);
+		return thumbnailService.getThumbnailListByCategoryAndRestaurantName(categoryId, restaurantName, latitude,
+			longitude, distance, pageable);
 	}
 
 	@GetMapping(value = "", params = {"categoryId", "keyword", "page", "size"})

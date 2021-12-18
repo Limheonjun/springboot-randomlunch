@@ -31,6 +31,9 @@ public interface ThumbnailService {
 	List<ThumbnailResponse> getThumbnailListByCategoryAndRestaurantName(
 		Long categoryId,
 		String restaurantName,
+		BigDecimal latitude,
+		BigDecimal longitude,
+		Float distance,
 		Pageable pageable
 	);
 

@@ -93,10 +93,14 @@ public class DefaultThumbnailService implements ThumbnailService {
 	public List<ThumbnailResponse> getThumbnailListByCategoryAndRestaurantName(
 		Long categoryId,
 		String restaurantName,
+		BigDecimal latitude,
+		BigDecimal longitude,
+		Float distance,
 		Pageable pageable
 	) {
 		Category category = categoryRepository.findById(categoryId).orElseThrow();//TODO : 구체적 예외 처리
-		List<Restaurant> restaurantList = restaurantRepository.findAllByNameLike(restaurantName);
+		List<Restaurant> restaurantList = restaurantRepository.findAllByNameAndGPSAndDistance(latitude,
+			longitude, distance, 0, 100, OPEN.name(), restaurantName);
 		List<Thumbnail> thumbnailList = thumbnailRepository.findAllByCategoryAndRestaurantInOrderByCreateDateDesc(
 			category,
 			restaurantList,
