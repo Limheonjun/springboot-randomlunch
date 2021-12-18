@@ -22,6 +22,9 @@ public interface ThumbnailService {
 
 	List<ThumbnailResponse> getThumbnailListByHashtag(
 		String keyword,
+		BigDecimal latitude,
+		BigDecimal longitude,
+		Float distance,
 		Pageable pageable
 	);
 
