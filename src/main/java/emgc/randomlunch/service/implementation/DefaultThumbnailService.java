@@ -1,6 +1,9 @@
 package emgc.randomlunch.service.implementation;
 
+import static emgc.randomlunch.enums.RestaurantStatus.*;
+
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,9 +52,13 @@ public class DefaultThumbnailService implements ThumbnailService {
 	@Override
 	public List<ThumbnailResponse> getThumbnailListByRestaurantName(
 		String restaurantName,
+		BigDecimal latitude,
+		BigDecimal longitude,
+		Float distance,
 		Pageable pageable
 	) {
-		List<Restaurant> restaurantList = restaurantRepository.findAllByNameLike(restaurantName);
+		List<Restaurant> restaurantList = restaurantRepository.findAllByNameAndGPSAndDistance(latitude,
+			longitude, distance, 0, 100, OPEN.name(), restaurantName);
 		List<Thumbnail> thumbnailList = thumbnailRepository.findAllByRestaurantInOrderByCreateDateDesc(
 			restaurantList,
 			pageable
@@ -148,8 +155,8 @@ public class DefaultThumbnailService implements ThumbnailService {
 		Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow();
 		List<Hashtag> hashtagList = hashtagService.createHashtagList(request.getHashtagList());
 
-		for(MultipartFile file : thumbnails) {
-			FileUtil.saveFile(file, "C:\\Users\\MS\\Desktop\\thumbnail");
+		for (MultipartFile file : thumbnails) {
+			String s = FileUtil.saveFile(file, "C:\\Users\\MS\\Desktop\\thumbnail");
 			Thumbnail thumbnail = Thumbnail.of(file, restaurant, category, user);
 			Thumbnail savedThumbnail = thumbnailRepository.save(thumbnail);
 

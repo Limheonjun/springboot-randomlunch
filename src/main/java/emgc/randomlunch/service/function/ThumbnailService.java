@@ -1,6 +1,7 @@
 package emgc.randomlunch.service.function;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,9 @@ public interface ThumbnailService {
 
 	List<ThumbnailResponse> getThumbnailListByRestaurantName(
 		String restaurantName,
+		BigDecimal latitude,
+		BigDecimal longitude,
+		Float distance,
 		Pageable pageable
 	);
 
