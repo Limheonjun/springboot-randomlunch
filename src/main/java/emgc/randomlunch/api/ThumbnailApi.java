@@ -69,16 +69,20 @@ public class ThumbnailApi {
 			longitude, distance, pageable);
 	}
 
-	@GetMapping(value = "", params = {"categoryId", "keyword", "page", "size"})
+	@GetMapping(value = "", params = {"categoryId", "keyword", "latitude", "longitude", "distance", "page", "size"})
 	public List<ThumbnailResponse> getThumbnailListByCategoryAndHashtag(
 		@RequestParam
 		@NotNull(message = "카테고리 아이디는 필수 입력 값입니다")
 		@Positive(message = "카테고리 아이디는 양수만 입력 가능합니다.") Long categoryId,
 		@RequestParam
 		@NotNull(message = "해시태그는 필수 입력 값입니다") String keyword,
-		@RequestParam Pageable pageable
+		@RequestParam BigDecimal latitude,
+		@RequestParam BigDecimal longitude,
+		@RequestParam Float distance,
+		Pageable pageable
 	) {
-		return thumbnailService.getThumbnailListByCategoryAndHashtag(categoryId, keyword, pageable);
+		return thumbnailService.getThumbnailListByCategoryAndHashtag(categoryId, keyword, latitude, longitude, distance,
+			pageable);
 	}
 
 	@PostMapping("")

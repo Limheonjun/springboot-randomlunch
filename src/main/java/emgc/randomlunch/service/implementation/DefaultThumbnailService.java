@@ -114,14 +114,21 @@ public class DefaultThumbnailService implements ThumbnailService {
 	public List<ThumbnailResponse> getThumbnailListByCategoryAndHashtag(
 		Long categoryId,
 		String keyword,
+		BigDecimal latitude,
+		BigDecimal longitude,
+		Float distance,
 		Pageable pageable
 	) {
 		List<Hashtag> hashtagList = hashtagRepository.findAllByWordLike(keyword);
 		List<ThumbnailHashtag> thumbnailHashtagList = thumbnailHashtagRepository.findAllByHashtagIn(hashtagList);
 		Category category = categoryRepository.findById(categoryId).orElseThrow();//TODO : 구체적 예외 처리
-		List<Thumbnail> thumbnailList = thumbnailRepository.findAllByCategoryAndThumbnailHashtagInOrderByCreateDateDesc(
+		//검색된 썸네일 중에서 반경 x미터 해당하는 것만 반환
+		List<Restaurant> restaurantList = restaurantRepository.findAllByNameAndGPSAndDistance(latitude,
+			longitude, distance, 0, 100, OPEN.name(), "");
+		List<Thumbnail> thumbnailList = thumbnailRepository.findAllByCategoryAndThumbnailHashtagInAndRestaurantInOrderByCreateDateDesc(
 			category,
 			thumbnailHashtagList,
+			restaurantList,
 			pageable
 		);
 
