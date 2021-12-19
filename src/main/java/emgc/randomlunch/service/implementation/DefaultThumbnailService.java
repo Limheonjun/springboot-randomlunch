@@ -172,11 +172,11 @@ public class DefaultThumbnailService implements ThumbnailService {
 		Restaurant restaurant = restaurantRepository.findById(request.getRestaurantId()).orElseThrow();
 		Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow();
 		List<Hashtag> hashtagList = hashtagService.createHashtagList(request.getHashtagList());
-
+		String path = "C:\\Users\\MS\\Desktop\\thumbnail";
 		for (MultipartFile file : thumbnails) {
-			String s = FileUtil.saveFile(file, "C:\\Users\\MS\\Desktop\\thumbnail");
 			Thumbnail thumbnail = Thumbnail.of(file, restaurant, category, user);
 			Thumbnail savedThumbnail = thumbnailRepository.save(thumbnail);
+			FileUtil.saveFile(file, path);
 
 			//썸네일해시태그 생성
 			List<ThumbnailHashtag> thumbnailHashtagList = hashtagList.stream()
