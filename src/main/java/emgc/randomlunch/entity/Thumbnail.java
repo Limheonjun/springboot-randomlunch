@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Thumbnail extends BaseEntity {
+public class Thumbnail extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue
@@ -44,7 +44,7 @@ public class Thumbnail extends BaseEntity {
 	private Category category;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	@OneToMany(mappedBy = "thumbnail", cascade = CascadeType.PERSIST)
@@ -72,10 +72,10 @@ public class Thumbnail extends BaseEntity {
 		Category category,
 		User user
 	) throws IOException {
-		// BufferedImage bufferedImage = FileUtil.toBufferedImage(file);
+		BufferedImage bufferedImage = FileUtil.toBufferedImage(file);
 		long size = file.getSize();
-		// int height = FileUtil.getHeight(bufferedImage);
-		// int width = FileUtil.getWidth(bufferedImage);
+		int height = FileUtil.getHeight(bufferedImage);
+		int width = FileUtil.getWidth(bufferedImage);
 		String extension = FileUtil.getExtension(file);
 		String originalName = FileUtil.getOriginalName(file);
 		String originFileName = FileUtil.getOriginFileName(file);
@@ -85,8 +85,8 @@ public class Thumbnail extends BaseEntity {
 			.category(category)
 			.user(user)
 			.size(size)
-			// .width(width)
-			// .height(height)
+			.width(width)
+			.height(height)
 			.extension(extension)
 			.originalFileName(originalName)
 			.originalFileName(originFileName)
