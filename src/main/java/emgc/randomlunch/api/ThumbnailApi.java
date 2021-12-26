@@ -44,7 +44,7 @@ public class ThumbnailApi {
 	 */
 	@GetMapping(value = "", params = {"restaurantName", "latitude", "longitude", "distance", "page", "size"})
 	public List<ThumbnailResponse> getThumbnailListByRestaurantName(
-		@RequestParam @NotNull(message = "음식점명은 필수 입력 값입니다") String restaurantName,
+		@RequestParam(defaultValue = "") String restaurantName,
 		@RequestParam BigDecimal latitude,
 		@RequestParam BigDecimal longitude,
 		@RequestParam Float distance,
@@ -66,7 +66,7 @@ public class ThumbnailApi {
 	 */
 	@GetMapping(value = "", params = {"keyword", "latitude", "longitude", "distance", "page", "size"})
 	public List<ThumbnailResponse> getThumbnailListByHashtag(
-		@RequestParam @NotNull(message = "해시태그는 필수 입력 값입니다") String keyword,
+		@RequestParam(defaultValue = "") String keyword,
 		@RequestParam BigDecimal latitude,
 		@RequestParam BigDecimal longitude,
 		@RequestParam Float distance,
@@ -93,8 +93,7 @@ public class ThumbnailApi {
 		@RequestParam
 		@NotNull(message = "카테고리 아이디는 필수 입력 값입니다")
 		@Positive(message = "카테고리 아이디는 양수만 입력 가능합니다.") Long categoryId,
-		@RequestParam
-		@NotNull(message = "음식점명은 필수 입력 값입니다") String restaurantName,
+		@RequestParam(defaultValue = "") String restaurantName,
 		@RequestParam BigDecimal latitude,
 		@RequestParam BigDecimal longitude,
 		@RequestParam Float distance,
@@ -120,8 +119,7 @@ public class ThumbnailApi {
 		@RequestParam
 		@NotNull(message = "카테고리 아이디는 필수 입력 값입니다")
 		@Positive(message = "카테고리 아이디는 양수만 입력 가능합니다.") Long categoryId,
-		@RequestParam
-		@NotNull(message = "해시태그는 필수 입력 값입니다") String keyword,
+		@RequestParam(defaultValue = "")String keyword,
 		@RequestParam BigDecimal latitude,
 		@RequestParam BigDecimal longitude,
 		@RequestParam Float distance,
