@@ -8,11 +8,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import emgc.randomlunch.entity.Restaurant;
-import emgc.randomlunch.enums.RestaurantStatus;
 
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
-	List<Restaurant> findAllByNameLike(String name);
+	@Query(value = "SELECT * "
+		+ "FROM restaurant "
+		+ "WHERE name "
+		+ "LIKE CONCAT('%', :name, '%') "
+		+ "LIMIT :limit "
+		+ "OFFSET :offset ",
+		nativeQuery = true)
+	List<Restaurant> findAllByNameLike(String name, Integer offset, Integer limit);
 
 	@Query(value = "SELECT *, "
 		+ "(6371*acos(cos(radians(:latitude))*cos(radians(latitude))*cos(radians(longitude)"
