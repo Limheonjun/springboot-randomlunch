@@ -176,7 +176,8 @@ public class DefaultThumbnailService implements ThumbnailService {
 		for (MultipartFile file : thumbnails) {
 			Thumbnail thumbnail = Thumbnail.of(file, restaurant, category, user);
 			Thumbnail savedThumbnail = thumbnailRepository.save(thumbnail);
-			FileUtil.saveFile(file, path);
+			awsS3UploadUtil.upload(file, "static");
+			// FileUtil.saveFile(file, path);
 
 			//썸네일해시태그 생성
 			List<ThumbnailHashtag> thumbnailHashtagList = hashtagList.stream()
